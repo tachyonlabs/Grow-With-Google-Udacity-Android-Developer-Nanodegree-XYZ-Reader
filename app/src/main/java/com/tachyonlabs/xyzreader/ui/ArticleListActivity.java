@@ -1,5 +1,6 @@
 package com.tachyonlabs.xyzreader.ui;
 
+import com.squareup.picasso.Picasso;
 import com.tachyonlabs.xyzreader.R;
 import com.tachyonlabs.xyzreader.data.ArticleLoader;
 import com.tachyonlabs.xyzreader.data.ItemsContract;
@@ -8,12 +9,14 @@ import com.tachyonlabs.xyzreader.databinding.ActivityArticleListBinding;
 
 import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +27,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -50,14 +54,15 @@ public class ArticleListActivity extends AppCompatActivity implements
     private SimpleDateFormat outputFormat = new SimpleDateFormat();
     // Most time functions can only handle 1902 - 2037
     private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
+    ContentResolver mContentResolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContentResolver = getContentResolver();
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_article_list);
         mSwipeRefreshLayout = mBinding.swipeRefreshLayout;
         mRecyclerView = mBinding.recyclerView;
-
         getLoaderManager().initLoader(0, null, this);
 
         if (savedInstanceState == null) {
@@ -177,10 +182,41 @@ public class ArticleListActivity extends AppCompatActivity implements
                         + "<br/>" + " by "
                         + mCursor.getString(ArticleLoader.Query.AUTHOR)));
             }
-            holder.thumbnailView.setImageUrl(
-                    mCursor.getString(ArticleLoader.Query.THUMB_URL),
-                    com.tachyonlabs.xyzreader.ui.ImageLoaderHelper.getInstance(ArticleListActivity.this).getImageLoader());
-            holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
+
+            Uri thumbUri = Uri.parse(mCursor.getString(ArticleLoader.Query.THUMB_URL));
+            Log.d(TAG, thumbUri.toString());
+            Picasso.with(holder.thumbnailView.getContext())
+                    .load(thumbUri)
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.logo)
+                    .into(holder.thumbnailView, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
+                    //do smth when picture is loaded successfully
+
+                }
+
+                @Override
+                public void onError() {
+                    //do smth when there is picture loading error
+                }
+            });
+
+//            try {
+//                InputStream imageStream = mContentResolver.openInputStream(thumbUri);
+//                Log.d(TAG, "here");
+//                Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+//                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+//                    @Override
+//                    public void onGenerated(Palette palette) {
+//                        int clr = palette.getVibrantColor(0x000000);
+//                        Log.d(TAG, clr + "");
+//                    }
+//                });
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+
         }
 
         @Override
@@ -190,15 +226,15 @@ public class ArticleListActivity extends AppCompatActivity implements
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public com.tachyonlabs.xyzreader.ui.DynamicHeightNetworkImageView thumbnailView;
+        public ImageView thumbnailView;
         public TextView titleView;
         public TextView subtitleView;
 
         public ViewHolder(View view) {
             super(view);
-            thumbnailView = (com.tachyonlabs.xyzreader.ui.DynamicHeightNetworkImageView) view.findViewById(R.id.thumbnail);
-            titleView = (TextView) view.findViewById(R.id.article_title);
-            subtitleView = (TextView) view.findViewById(R.id.article_subtitle);
+            thumbnailView = view.findViewById(R.id.thumbnail);
+            titleView = view.findViewById(R.id.article_title);
+            subtitleView = view.findViewById(R.id.article_subtitle);
         }
     }
 }
