@@ -1,6 +1,7 @@
 package com.tachyonlabs.xyzreader.ui;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.tachyonlabs.xyzreader.R;
 import com.tachyonlabs.xyzreader.data.ArticleLoader;
 import com.tachyonlabs.xyzreader.data.ItemsContract;
@@ -16,10 +17,12 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
@@ -28,6 +31,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -163,44 +167,70 @@ public class ArticleListActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
             holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
             Date publishedDate = parsePublishedDate();
             if (!publishedDate.before(START_OF_EPOCH.getTime())) {
 
                 holder.subtitleView.setText(Html.fromHtml(
-                        DateUtils.getRelativeTimeSpanString(
-                                publishedDate.getTime(),
-                                System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
-                                DateUtils.FORMAT_ABBREV_ALL).toString()
-                                + "<br/>" + " by "
-                                + mCursor.getString(ArticleLoader.Query.AUTHOR)));
+                                mCursor.getString(ArticleLoader.Query.AUTHOR)
+                                        + "<br/>" +
+                                        DateUtils.getRelativeTimeSpanString(
+                                                publishedDate.getTime(),
+                                                System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
+                                                DateUtils.FORMAT_ABBREV_ALL).toString()));
             } else {
                 holder.subtitleView.setText(Html.fromHtml(
-                        outputFormat.format(publishedDate)
-                        + "<br/>" + " by "
-                        + mCursor.getString(ArticleLoader.Query.AUTHOR)));
+                        mCursor.getString(ArticleLoader.Query.AUTHOR)
+                                + "<br/>" + outputFormat.format(publishedDate)));
             }
 
-            Uri thumbUri = Uri.parse(mCursor.getString(ArticleLoader.Query.THUMB_URL));
-            Log.d(TAG, thumbUri.toString());
+            // Many thanks to https://medium.com/david-developer/extracting-colors-from-images-integrating-picasso-and-palette-b9ba45c9c418
+            // for this technique for getting a palette from within Picasso code rather than having to reload the image.
             Picasso.with(holder.thumbnailView.getContext())
-                    .load(thumbUri)
+                    .load(mCursor.getString(ArticleLoader.Query.THUMB_URL))
                     .placeholder(R.drawable.logo)
                     .error(R.drawable.logo)
-                    .into(holder.thumbnailView, new com.squareup.picasso.Callback() {
-                @Override
-                public void onSuccess() {
-                    //do smth when picture is loaded successfully
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            Log.d(TAG, "loaded");
+                            holder.thumbnailView.setImageBitmap(bitmap);
+                            Palette.from(bitmap)
+                                    .generate(new Palette.PaletteAsyncListener() {
+                                        @Override
+                                        public void onGenerated(Palette palette) {
+                                            Palette.Swatch textSwatch = palette.getVibrantSwatch();
+                                            if (textSwatch == null) {
+                                                Log.d(TAG, "getVibrantSwatch null");
+                                                textSwatch = palette.getDarkVibrantSwatch();
+                                            }
+                                            if (textSwatch == null) {
+                                                Log.d(TAG, "getDarkVibrantSwatch null");
+                                                textSwatch = palette.getMutedSwatch();
+                                            }
+                                            if (textSwatch == null) {
+                                                Log.d(TAG, "getMutedSwatch null");
+                                                return;
+                                            }
+                                            holder.textBackground.setBackgroundColor(textSwatch.getRgb());
+//                                            holder.titleView.setTextColor(textSwatch.getBodyTextColor());
+//                                            bodyColorText.setTextColor(textSwatch.getBodyTextColor());
+                                        }
+                                    });
+                        }
 
-                }
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                            Log.d(TAG, "failed");
+                        }
 
-                @Override
-                public void onError() {
-                    //do smth when there is picture loading error
-                }
-            });
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                        }
+                    });
 
 //            try {
 //                InputStream imageStream = mContentResolver.openInputStream(thumbUri);
@@ -229,12 +259,14 @@ public class ArticleListActivity extends AppCompatActivity implements
         public ImageView thumbnailView;
         public TextView titleView;
         public TextView subtitleView;
+        public LinearLayout textBackground;
 
         public ViewHolder(View view) {
             super(view);
             thumbnailView = view.findViewById(R.id.thumbnail);
             titleView = view.findViewById(R.id.article_title);
             subtitleView = view.findViewById(R.id.article_subtitle);
+            textBackground = view.findViewById(R.id.ll_list_item_text_background);
         }
     }
 }

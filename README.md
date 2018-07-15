@@ -80,4 +80,7 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
 * [ ] App adheres to the [Google Play Store App policies](https://play.google.com/about/developer-content-policy.html).
 * [ ] App’s code follows standard Java/Android Style Guidelines.
 
-## Notes
+## Notes and acknowledgments
+
+Many thanks to [Extracting colors from images: Integrating Picasso and Palette](https://medium.com/david-developer/extracting-colors-from-images-integrating-picasso-and-palette-b9ba45c9c418) 
+for a technique for getting a palette from within Picasso code rather than having to reload the image.
