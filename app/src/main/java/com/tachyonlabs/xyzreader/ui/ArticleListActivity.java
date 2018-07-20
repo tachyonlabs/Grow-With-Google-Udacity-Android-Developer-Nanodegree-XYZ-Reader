@@ -148,8 +148,11 @@ public class ArticleListActivity extends AppCompatActivity implements
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
+                    String paletteTextBackgroundColor = vh.textBackground.getTag().toString();
+                    intent.putExtra(getString(R.string.palette_color_key), paletteTextBackgroundColor);
+                    startActivity(intent);
                 }
             });
             return vh;
@@ -192,6 +195,8 @@ public class ArticleListActivity extends AppCompatActivity implements
                     .load(mCursor.getString(ArticleLoader.Query.THUMB_URL))
                     .placeholder(R.drawable.logo)
                     .error(R.drawable.logo)
+                    .resize(300, 300)
+                    .centerCrop()
                     .into(new Target() {
                         @Override
                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -214,7 +219,10 @@ public class ArticleListActivity extends AppCompatActivity implements
                                                 Log.d(TAG, "getMutedSwatch null");
                                                 return;
                                             }
-                                            holder.textBackground.setBackgroundColor(textSwatch.getRgb());
+                                            int backgroundColor = textSwatch.getRgb();
+
+                                            holder.textBackground.setBackgroundColor(backgroundColor);
+                                            holder.textBackground.setTag(String.valueOf(backgroundColor));
 //                                            holder.titleView.setTextColor(textSwatch.getBodyTextColor());
 //                                            bodyColorText.setTextColor(textSwatch.getBodyTextColor());
                                         }
@@ -231,22 +239,6 @@ public class ArticleListActivity extends AppCompatActivity implements
 
                         }
                     });
-
-//            try {
-//                InputStream imageStream = mContentResolver.openInputStream(thumbUri);
-//                Log.d(TAG, "here");
-//                Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
-//                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-//                    @Override
-//                    public void onGenerated(Palette palette) {
-//                        int clr = palette.getVibrantColor(0x000000);
-//                        Log.d(TAG, clr + "");
-//                    }
-//                });
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
         }
 
         @Override

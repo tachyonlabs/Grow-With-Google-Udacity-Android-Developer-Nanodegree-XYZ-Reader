@@ -14,13 +14,20 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
+<!--
+        I made the accent color the same color as the primary, because the only place you see the
+        accent color is in the Article Detail activity, which takes its palette from the photo
+        rather than the app theme, so I thought it was good to have the FAB and progress bar
+        reinforce the app primary color rather than be some other color that had no relation to
+        anything other than contrasting with colors that aren't even onscreen.
+-->
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#FD5621</item>
         <item name="colorPrimaryDark">#D84315</item>
-        <item name="colorAccent">#0091EA</item>
+        <item name="colorAccent">#FD5621</item>
+        <!--<item name="colorAccent">#0091EA</item>-->
     </style>
 
 </resources>

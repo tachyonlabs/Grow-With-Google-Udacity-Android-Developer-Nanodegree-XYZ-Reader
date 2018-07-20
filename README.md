@@ -4,6 +4,10 @@ When complete, this will be my submission for the sixth project in the "Grow Wit
 scholarship Udacity/Google Android Developer Nanodegree program. #GoogleUdacityScholars 
 #GrowWithGoogle #MadeWithUdacity
 
+### Screenshots
+
+![XYZ Reader article list activity](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/article_list_activity.png "XYZ Reader article list activity")
+
 ## How Will I Complete this Project?
 
 You will improve an app for this project:
@@ -27,7 +31,7 @@ You will improve an app for this project:
 Your project will be evaluated by a Udacity Code Reviewer according to this rubric. Be sure to review it 
 thoroughly before you submit. All criteria must "meet specifications" in order to pass. 
 
-* [ ] App uses the Design Support library and its provided widget types (FloatingActionButton, AppBarLayout, SnackBar, etc).
+* [x] App uses the Design Support library and its provided widget types (FloatingActionButton, AppBarLayout, SnackBar, etc).
 * [x] App uses CoordinatorLayout for the main Activity.
 * [x] App theme extends from AppCompat.
 * [x] App uses an AppBar and associated Toolbars.
@@ -76,7 +80,7 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
 ### Google Play
 
 #### Content Policies
-* [ ] All content is safe for work content.
+* [x] All content is safe for work content.
 * [ ] App adheres to the [Google Play Store App policies](https://play.google.com/about/developer-content-policy.html).
 * [ ] App’s code follows standard Java/Android Style Guidelines.
 
@@ -84,3 +88,8 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
 
 Many thanks to [Extracting colors from images: Integrating Picasso and Palette](https://medium.com/david-developer/extracting-colors-from-images-integrating-picasso-and-palette-b9ba45c9c418) 
 for a technique for getting a palette from within Picasso code rather than having to reload the image.
+
+I made the accent color the same color as the primary, because the only place you see the accent color is 
+in the Article Detail activity, which takes its palette from the photo rather than the app theme, so I 
+thought it was good to have the FAB and progress bar reinforce the app primary color rather than be some 
+other color that had no relation to anything other than contrasting with colors that aren't even onscreen.

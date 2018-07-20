@@ -15,14 +15,21 @@
      limitations under the License.
 -->
 
+<!--I made the accent color the same color as the primary, because the only place you see the -->
+<!--accent color is in the Article Detail activity, which takes its palette from the photo -->
+<!--rather than the app theme, so I thought it was good to have the FAB and progress bar -->
+<!--reinforce the app primary color rather than be some other color that had no relation to -->
+<!--anything other than contrasting with colors that aren't even onscreen.-->
 <resources>
     <color name="photo_placeholder">#ccc</color>
 
     <color name="theme_primary">#FD5621</color>
     <color name="theme_primary_dark">#D84315</color>
-    <color name="theme_accent">#0091EA</color>
+    <color name="theme_accent">#FD5621</color>
+    <!--<color name="theme_accent">#0091EA</color>-->
     <color name="ltgray">#ffe0e0e0</color>
     <color name="primary_dark_material_dark">#D84315</color>
     <color name="primary_material_dark">#D84315</color>
-    <color name="accent_material_light">#0091EA</color>
+    <color name="accent_material_light">#FD5621</color>
+    <!--<color name="accent_material_light">#0091EA</color>-->
 </resources>

@@ -25,7 +25,8 @@
 
         <TextView
                 android:id="@+id/article_title"
-                style="@style/TextAppearance.AppCompat.Headline"
+                android:fontFamily="@font/merriweather_sans_bolditalic"
+                android:textSize="24sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
@@ -39,7 +40,8 @@
 
         <TextView
                 android:id="@+id/article_subtitle"
-                style="@style/TextAppearance.AppCompat.Body1"
+                android:fontFamily="@font/merriweather_sans_regular"
+                android:textSize="14sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"

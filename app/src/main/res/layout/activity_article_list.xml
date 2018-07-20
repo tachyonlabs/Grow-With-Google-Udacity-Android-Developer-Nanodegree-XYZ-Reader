@@ -46,12 +46,15 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <!--The negative padding is so the cells in the StaggeredGridLayout will only have margins -->
+            <!--between each other, not extra white space along the sides of the display as well-->
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingLeft="-8dp"
                     android:paddingRight="-8dp"/>
+
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </android.support.design.widget.CoordinatorLayout>
