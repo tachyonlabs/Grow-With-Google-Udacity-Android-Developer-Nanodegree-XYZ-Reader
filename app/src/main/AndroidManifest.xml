@@ -25,7 +25,9 @@
         </activity>
         <activity
                 android:name=".ui.ArticleDetailActivity"
-                android:parentActivityName=".ui.ArticleListActivity">
+                android:parentActivityName=".ui.ArticleListActivity"
+                android:theme="@style/DetailTheme"
+            android:label="">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
@@ -48,8 +50,6 @@
                 android:authorities="com.tachyonlabs.xyzreader"
                 android:exported="false"/>
 
-        <activity android:name=".ui.DetailActivity">
-        </activity>
     </application>
 
 </manifest>

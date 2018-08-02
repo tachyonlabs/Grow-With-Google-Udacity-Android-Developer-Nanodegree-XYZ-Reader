@@ -35,11 +35,11 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
 * [x] App uses CoordinatorLayout for the main Activity.
 * [x] App theme extends from AppCompat.
 * [x] App uses an AppBar and associated Toolbars.
-* [ ] App provides a Floating Action Button for the most common action(s).
+* [x] App provides a Floating Action Button for the most common action(s).
 * [ ] App properly specifies elevations for app bars, FABs, and other elements specified in the Material Design specification.
 * [x] App has a consistent color theme defined in styles.xml. Color theme does not impact usability of the app.
 * [ ] App provides sufficient space between text and surrounding elements.
-* [ ] App uses images that are high quality, specific, and full bleed.
+* [x] App uses images that are high quality, specific, and full bleed.
 * [ ] App uses fonts that are either the Android defaults, are complementary, and aren't otherwise distracting.
 * [x] App utilizes stable release versions of all libraries, Gradle, and Android Studio.
 * [ ] App conforms to common standards found in the Android Nanodegree General Project Guidelines.
@@ -64,7 +64,7 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
 * [ ] App does not request permissions to access sensitive data or services that can cost the user money, unless related to a core capability of the app.
 
 #### User/App State
-* [ ] App correctly preserves and restores user or app state, that is , student uses a bundle to save app state and restores it via onSaveInstanceState/onRestoreInstanceState. For example,
+* [ ] App correctly preserves and restores user or app state, that is, student uses a bundle to save app state and restores it via onSaveInstanceState/onRestoreInstanceState. For example,
     * [ ] When a list item is selected, it remains selected on rotation.
     * [ ] When an activity is displayed, the same activity appears on rotation.
     * [ ] User text input is preserved on rotation.

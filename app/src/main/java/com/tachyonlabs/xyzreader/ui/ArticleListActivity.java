@@ -152,6 +152,7 @@ public class ArticleListActivity extends AppCompatActivity implements
                             ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
                     String paletteTextBackgroundColor = vh.textBackground.getTag().toString();
                     intent.putExtra(getString(R.string.palette_color_key), paletteTextBackgroundColor);
+                    intent.putExtra("pos", vh.getAdapterPosition());
                     startActivity(intent);
                 }
             });
