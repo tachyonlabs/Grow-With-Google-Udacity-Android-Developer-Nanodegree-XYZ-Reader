@@ -44,7 +44,6 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <!--<com.tachyonlabs.xyzreader.ui.ObservableScrollView-->
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
@@ -82,7 +81,7 @@
                     android:fontFamily="@font/merriweather_sans_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#8fff" />
+                    android:textColor="#fff" />
         </LinearLayout>
         <TextView
                 android:id="@+id/article_body"

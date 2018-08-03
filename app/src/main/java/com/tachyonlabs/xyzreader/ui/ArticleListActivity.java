@@ -34,7 +34,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -53,11 +52,11 @@ public class ArticleListActivity extends AppCompatActivity implements
     private RecyclerView mRecyclerView;
     private ActivityArticleListBinding mBinding;
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
-    // Use default locale format
-    private SimpleDateFormat outputFormat = new SimpleDateFormat();
     // Most time functions can only handle 1902 - 2037
     private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
+    // Use default locale format
+    private SimpleDateFormat outputFormat = new SimpleDateFormat();
+
     ContentResolver mContentResolver;
 
     @Override
@@ -159,22 +158,11 @@ public class ArticleListActivity extends AppCompatActivity implements
             return vh;
         }
 
-        private Date parsePublishedDate() {
-            try {
-                String date = mCursor.getString(ArticleLoader.Query.PUBLISHED_DATE);
-                return dateFormat.parse(date);
-            } catch (ParseException ex) {
-                Log.e(TAG, ex.getMessage());
-                Log.i(TAG, "passing today's date");
-                return new Date();
-            }
-        }
-
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
             holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
-            Date publishedDate = parsePublishedDate();
+            Date publishedDate = com.tachyonlabs.xyzreader.utils.DateUtils.parsePublishedDate(mCursor.getString(ArticleLoader.Query.PUBLISHED_DATE));
             if (!publishedDate.before(START_OF_EPOCH.getTime())) {
 
                 holder.subtitleView.setText(Html.fromHtml(
@@ -207,25 +195,9 @@ public class ArticleListActivity extends AppCompatActivity implements
                                     .generate(new Palette.PaletteAsyncListener() {
                                         @Override
                                         public void onGenerated(Palette palette) {
-                                            Palette.Swatch textSwatch = palette.getVibrantSwatch();
-                                            if (textSwatch == null) {
-                                                Log.d(TAG, "getVibrantSwatch null");
-                                                textSwatch = palette.getDarkVibrantSwatch();
-                                            }
-                                            if (textSwatch == null) {
-                                                Log.d(TAG, "getDarkVibrantSwatch null");
-                                                textSwatch = palette.getMutedSwatch();
-                                            }
-                                            if (textSwatch == null) {
-                                                Log.d(TAG, "getMutedSwatch null");
-                                                return;
-                                            }
-                                            int backgroundColor = textSwatch.getRgb();
-
-                                            holder.textBackground.setBackgroundColor(backgroundColor);
-                                            holder.textBackground.setTag(String.valueOf(backgroundColor));
-//                                            holder.titleView.setTextColor(textSwatch.getBodyTextColor());
-//                                            bodyColorText.setTextColor(textSwatch.getBodyTextColor());
+                                            int mutedColor = palette.getVibrantColor(0xFF333333);
+                                            holder.textBackground.setBackgroundColor(mutedColor);
+                                            holder.textBackground.setTag(String.valueOf(mutedColor));
                                         }
                                     });
                         }
