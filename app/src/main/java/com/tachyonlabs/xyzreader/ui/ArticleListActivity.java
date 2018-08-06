@@ -1,28 +1,21 @@
 package com.tachyonlabs.xyzreader.ui;
 
+import com.github.florent37.picassopalette.PicassoPalette;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.tachyonlabs.xyzreader.R;
 import com.tachyonlabs.xyzreader.data.ArticleLoader;
 import com.tachyonlabs.xyzreader.data.ItemsContract;
-import com.tachyonlabs.xyzreader.data.UpdaterService;
 import com.tachyonlabs.xyzreader.databinding.ActivityArticleListBinding;
 
 import android.app.LoaderManager;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
@@ -45,11 +38,12 @@ import java.util.GregorianCalendar;
  * activity presents a grid of items as cards.
  */
 public class ArticleListActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = ArticleListActivity.class.toString();
+    private static final String TAG = ArticleListActivity.class.getSimpleName();
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
+    private Adapter mAdapter;
     private ActivityArticleListBinding mBinding;
 
     // Most time functions can only handle 1902 - 2037
@@ -65,46 +59,51 @@ public class ArticleListActivity extends AppCompatActivity implements
         mContentResolver = getContentResolver();
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_article_list);
         mSwipeRefreshLayout = mBinding.swipeRefreshLayout;
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerView = mBinding.recyclerView;
+        int columnCount = getResources().getInteger(R.integer.list_column_count);
+        StaggeredGridLayoutManager sglm =
+                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(sglm);
+        mAdapter = new Adapter(null);
+        mAdapter.setHasStableIds(true);
+        mRecyclerView.setAdapter(mAdapter);
+
         getLoaderManager().initLoader(0, null, this);
-
-        if (savedInstanceState == null) {
-            refresh();
-        }
     }
 
-    private void refresh() {
-        startService(new Intent(this, UpdaterService.class));
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        registerReceiver(mRefreshingReceiver,
-                new IntentFilter(UpdaterService.BROADCAST_ACTION_STATE_CHANGE));
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        unregisterReceiver(mRefreshingReceiver);
-    }
-
-    private boolean mIsRefreshing = false;
-
-    private BroadcastReceiver mRefreshingReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (UpdaterService.BROADCAST_ACTION_STATE_CHANGE.equals(intent.getAction())) {
-                mIsRefreshing = intent.getBooleanExtra(UpdaterService.EXTRA_REFRESHING, false);
-                updateRefreshingUI();
-            }
-        }
-    };
-
-    private void updateRefreshingUI() {
-        mSwipeRefreshLayout.setRefreshing(mIsRefreshing);
-    }
+//    private void refresh() {
+//        startService(new Intent(this, UpdaterService.class));
+//    }
+//
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        registerReceiver(mRefreshingReceiver,
+//                new IntentFilter(UpdaterService.BROADCAST_ACTION_STATE_CHANGE));
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        unregisterReceiver(mRefreshingReceiver);
+//    }
+//
+//    private boolean mIsRefreshing = false;
+//
+//    private BroadcastReceiver mRefreshingReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if (UpdaterService.BROADCAST_ACTION_STATE_CHANGE.equals(intent.getAction())) {
+//                mIsRefreshing = intent.getBooleanExtra(UpdaterService.EXTRA_REFRESHING, false);
+//                updateRefreshingUI();
+//            }
+//        }
+//    };
+//
+//    private void updateRefreshingUI() {
+//        mSwipeRefreshLayout.setRefreshing(mIsRefreshing);
+//    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -113,18 +112,18 @@ public class ArticleListActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        Adapter adapter = new Adapter(cursor);
-        adapter.setHasStableIds(true);
-        mRecyclerView.setAdapter(adapter);
-        int columnCount = getResources().getInteger(R.integer.list_column_count);
-        StaggeredGridLayoutManager sglm =
-                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(sglm);
+        mAdapter.swapCursor(cursor);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mRecyclerView.setAdapter(null);
+    }
+
+    @Override
+    public void onRefresh() {
+        getLoaderManager().restartLoader(0, null, this);
     }
 
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
@@ -149,8 +148,6 @@ public class ArticleListActivity extends AppCompatActivity implements
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_VIEW,
                             ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
-                    String paletteTextBackgroundColor = vh.textBackground.getTag().toString();
-                    intent.putExtra(getString(R.string.palette_color_key), paletteTextBackgroundColor);
                     intent.putExtra("pos", vh.getAdapterPosition());
                     startActivity(intent);
                 }
@@ -159,63 +156,51 @@ public class ArticleListActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             mCursor.moveToPosition(position);
+            Log.d(TAG, "onBindViewHolder position is " + position + " " + mCursor.getString(ArticleLoader.Query.TITLE));
             holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
             Date publishedDate = com.tachyonlabs.xyzreader.utils.DateUtils.parsePublishedDate(mCursor.getString(ArticleLoader.Query.PUBLISHED_DATE));
             if (!publishedDate.before(START_OF_EPOCH.getTime())) {
 
                 holder.subtitleView.setText(Html.fromHtml(
-                                mCursor.getString(ArticleLoader.Query.AUTHOR)
-                                        + "<br/>" +
-                                        DateUtils.getRelativeTimeSpanString(
-                                                publishedDate.getTime(),
-                                                System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
-                                                DateUtils.FORMAT_ABBREV_ALL).toString()));
+                        mCursor.getString(ArticleLoader.Query.AUTHOR)
+                                + "<br/>" +
+                                DateUtils.getRelativeTimeSpanString(
+                                        publishedDate.getTime(),
+                                        System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
+                                        DateUtils.FORMAT_ABBREV_ALL).toString()));
             } else {
                 holder.subtitleView.setText(Html.fromHtml(
                         mCursor.getString(ArticleLoader.Query.AUTHOR)
                                 + "<br/>" + outputFormat.format(publishedDate)));
             }
 
-            // Many thanks to https://medium.com/david-developer/extracting-colors-from-images-integrating-picasso-and-palette-b9ba45c9c418
-            // for this technique for getting a palette from within Picasso code rather than having to reload the image.
+            String photoUrlString = mCursor.getString(ArticleLoader.Query.THUMB_URL);
             Picasso.with(holder.thumbnailView.getContext())
-                    .load(mCursor.getString(ArticleLoader.Query.THUMB_URL))
-                    .placeholder(R.drawable.logo)
-                    .error(R.drawable.logo)
-                    .resize(300, 300)
-                    .centerCrop()
-                    .into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            Log.d(TAG, "loaded");
-                            holder.thumbnailView.setImageBitmap(bitmap);
-                            Palette.from(bitmap)
-                                    .generate(new Palette.PaletteAsyncListener() {
-                                        @Override
-                                        public void onGenerated(Palette palette) {
-                                            int mutedColor = palette.getVibrantColor(0xFF333333);
-                                            holder.textBackground.setBackgroundColor(mutedColor);
-                                            holder.textBackground.setTag(String.valueOf(mutedColor));
-                                        }
-                                    });
-                        }
+                    .load(photoUrlString)
+                    .placeholder(R.drawable.empty_detail)
+                    .error(R.drawable.empty_detail)
+                    .into(holder.thumbnailView,
+                            PicassoPalette.with(photoUrlString, holder.thumbnailView)
+                                    .use(PicassoPalette.Profile.MUTED_DARK)
+                                    .intoBackground(holder.textBackground)
 
-                        @Override
-                        public void onBitmapFailed(Drawable errorDrawable) {
-                            Log.d(TAG, "failed");
-                        }
+                                    .use(PicassoPalette.Profile.VIBRANT)
+                                    .intoBackground(holder.textBackground, PicassoPalette.Swatch.RGB)
+                    );
+        }
 
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                        }
-                    });
+        public void swapCursor(Cursor newCursor) {
+            mCursor = newCursor;
+            notifyDataSetChanged();
         }
 
         @Override
         public int getItemCount() {
+            if (mCursor == null) {
+                return 0;
+            }
             return mCursor.getCount();
         }
     }

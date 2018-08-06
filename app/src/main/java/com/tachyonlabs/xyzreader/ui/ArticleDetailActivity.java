@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ViewGroup;
 
 /**
@@ -22,7 +23,7 @@ import android.view.ViewGroup;
  */
 public class ArticleDetailActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
-
+    private static final String TAG = ArticleDetailActivity.class.getSimpleName();
     private Cursor mCursor;
     private long mStartId;
     private int mWhichWasClicked;
@@ -35,14 +36,12 @@ public class ArticleDetailActivity extends AppCompatActivity
     private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
 
-    public int paletteTextBackgroundColor;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
-        paletteTextBackgroundColor = Integer.parseInt(bundle.getString(getString(R.string.palette_color_key)));
         mWhichWasClicked = bundle.getInt("pos");
+        Log.d(TAG,"Pos clicked " + mWhichWasClicked);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_article_detail);
 
         getLoaderManager().initLoader(0, null, this);
@@ -65,6 +64,7 @@ public class ArticleDetailActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             if (getIntent() != null && getIntent().getData() != null) {
                 mStartId = ItemsContract.Items.getItemId(getIntent().getData());
+                Log.d(TAG, "mStartId is " + mStartId);
                 mSelectedItemId = mStartId;
             }
         }
@@ -80,22 +80,23 @@ public class ArticleDetailActivity extends AppCompatActivity
         mCursor = cursor;
         mPagerAdapter.notifyDataSetChanged();
 
-//        // Select the start ID
-//        if (mStartId > 0) {
-//            mCursor.moveToFirst();
-//            // TODO: optimize
-////            Toast.makeText(this, "Start ID = " + mStartId, Toast.LENGTH_LONG).show();
-//            while (!mCursor.isAfterLast()) {
-//                if (mCursor.getLong(ArticleLoader.Query._ID) == mStartId) {
-//                    final int position = mCursor.getPosition();
-//                    mPager.setCurrentItem(position, false);
-//                    break;
-//                }
-//                mCursor.moveToNext();
-//            }
-//            mStartId = 0;
-//        }
-        mPager.setCurrentItem(mWhichWasClicked, false);
+        // Select the start ID
+        if (mStartId > 0) {
+            mCursor.moveToFirst();
+            // TODO: optimize
+//            Toast.makeText(this, "Start ID = " + mStartId, Toast.LENGTH_LONG).show();
+            while (!mCursor.isAfterLast()) {
+                if (mCursor.getLong(ArticleLoader.Query._ID) == mStartId) {
+                    final int position = mCursor.getPosition();
+                    Log.d(TAG, "Setting " + position + " as current item in MyPagerAdapter");
+                    mPager.setCurrentItem(position, false);
+                    break;
+                }
+                mCursor.moveToNext();
+            }
+            mStartId = 0;
+        }
+//        mPager.setCurrentItem(mWhichWasClicked, false);
     }
 
     @Override
@@ -111,8 +112,9 @@ public class ArticleDetailActivity extends AppCompatActivity
 
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            Log.d(TAG, "Setting " + position + " as primary item in MyPagerAdapter");
             super.setPrimaryItem(container, position, object);
-            com.tachyonlabs.xyzreader.ui.ArticleDetailFragment fragment = (com.tachyonlabs.xyzreader.ui.ArticleDetailFragment) object;
+            ArticleDetailFragment fragment = (ArticleDetailFragment) object;
             if (fragment != null) {
 //                mSelectedItemUpButtonFloor = fragment.getUpButtonFloor();
 //                updateUpButtonPosition();
@@ -122,7 +124,7 @@ public class ArticleDetailActivity extends AppCompatActivity
         @Override
         public Fragment getItem(int position) {
             mCursor.moveToPosition(position);
-            return com.tachyonlabs.xyzreader.ui.ArticleDetailFragment.newInstance(mCursor.getLong(ArticleLoader.Query._ID));
+            return ArticleDetailFragment.newInstance(mCursor.getLong(ArticleLoader.Query._ID));
         }
 
         @Override
@@ -130,4 +132,5 @@ public class ArticleDetailActivity extends AppCompatActivity
             return (mCursor != null) ? mCursor.getCount() : 0;
         }
     }
+
 }
