@@ -7,10 +7,10 @@ import com.tachyonlabs.xyzreader.data.ArticleLoader;
 import com.tachyonlabs.xyzreader.data.ItemsContract;
 import com.tachyonlabs.xyzreader.databinding.ActivityArticleListBinding;
 
-import android.app.LoaderManager;
+import android.support.v4.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.Loader;
+import android.support.v4.content.Loader;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -69,7 +69,7 @@ public class ArticleListActivity extends AppCompatActivity implements
         mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
 
-        getLoaderManager().initLoader(0, null, this);
+        getSupportLoaderManager().initLoader(0, null, this);
     }
 
 //    private void refresh() {
@@ -123,7 +123,7 @@ public class ArticleListActivity extends AppCompatActivity implements
 
     @Override
     public void onRefresh() {
-        getLoaderManager().restartLoader(0, null, this);
+        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {

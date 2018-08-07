@@ -5,18 +5,17 @@ import com.tachyonlabs.xyzreader.data.ArticleLoader;
 import com.tachyonlabs.xyzreader.data.ItemsContract;
 import com.tachyonlabs.xyzreader.databinding.ActivityArticleDetailBinding;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.LoaderManager;
-import android.content.Loader;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.ViewGroup;
 
 /**
  * An activity representing a single Article detail screen, letting you swipe between articles.
@@ -44,9 +43,9 @@ public class ArticleDetailActivity extends AppCompatActivity
         Log.d(TAG,"Pos clicked " + mWhichWasClicked);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_article_detail);
 
-        getLoaderManager().initLoader(0, null, this);
+        getSupportLoaderManager().initLoader(0, null, this);
 
-        mPagerAdapter = new MyPagerAdapter(getFragmentManager());
+        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mPager = mBinding.pager;
         mPager.setAdapter(mPagerAdapter);
 
@@ -77,26 +76,28 @@ public class ArticleDetailActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        Log.d(TAG, "onLoadFinished");
         mCursor = cursor;
         mPagerAdapter.notifyDataSetChanged();
 
-        // Select the start ID
-        if (mStartId > 0) {
-            mCursor.moveToFirst();
-            // TODO: optimize
-//            Toast.makeText(this, "Start ID = " + mStartId, Toast.LENGTH_LONG).show();
-            while (!mCursor.isAfterLast()) {
-                if (mCursor.getLong(ArticleLoader.Query._ID) == mStartId) {
-                    final int position = mCursor.getPosition();
-                    Log.d(TAG, "Setting " + position + " as current item in MyPagerAdapter");
-                    mPager.setCurrentItem(position, false);
-                    break;
-                }
-                mCursor.moveToNext();
-            }
-            mStartId = 0;
-        }
-//        mPager.setCurrentItem(mWhichWasClicked, false);
+//        // Select the start ID
+//        if (mStartId > 0) {
+//            mCursor.moveToFirst();
+//            // TODO: optimize
+////            Toast.makeText(this, "Start ID = " + mStartId, Toast.LENGTH_LONG).show();
+//            while (!mCursor.isAfterLast()) {
+//                if (mCursor.getLong(ArticleLoader.Query._ID) == mStartId) {
+//                    final int position = mCursor.getPosition();
+//                    Log.d(TAG, "Setting " + position + " as current item in MyPagerAdapter");
+//                    mPager.setCurrentItem(position, false);
+//                    break;
+//                }
+//                mCursor.moveToNext();
+//            }
+//            mStartId = 0;
+//        }
+        mCursor.moveToPosition(mWhichWasClicked);
+        mPager.setCurrentItem(mWhichWasClicked, false);
     }
 
     @Override
@@ -110,21 +111,27 @@ public class ArticleDetailActivity extends AppCompatActivity
             super(fm);
         }
 
-        @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            Log.d(TAG, "Setting " + position + " as primary item in MyPagerAdapter");
-            super.setPrimaryItem(container, position, object);
-            ArticleDetailFragment fragment = (ArticleDetailFragment) object;
-            if (fragment != null) {
-//                mSelectedItemUpButtonFloor = fragment.getUpButtonFloor();
-//                updateUpButtonPosition();
-            }
-        }
+//        @Override
+//        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+//            Log.d(TAG, "Setting " + position + " as primary item in MyPagerAdapter");
+//            super.setPrimaryItem(container, position, object);
+//            ArticleDetailFragment fragment = (ArticleDetailFragment) object;
+//            if (fragment != null) {
+////                mSelectedItemUpButtonFloor = fragment.getUpButtonFloor();
+////                updateUpButtonPosition();
+//            }
+//        }
 
         @Override
         public Fragment getItem(int position) {
             mCursor.moveToPosition(position);
             return ArticleDetailFragment.newInstance(mCursor.getLong(ArticleLoader.Query._ID));
+        }
+
+        // for FragmentStatePagerAdapter misbehavior of blanking the current fragment after notifyDataSetChanged
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override

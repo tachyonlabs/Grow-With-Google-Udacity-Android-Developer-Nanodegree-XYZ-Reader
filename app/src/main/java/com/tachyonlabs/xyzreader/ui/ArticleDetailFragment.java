@@ -5,10 +5,11 @@ import com.squareup.picasso.Picasso;
 import com.tachyonlabs.xyzreader.R;
 import com.tachyonlabs.xyzreader.data.ArticleLoader;
 
-import android.app.Fragment;
-import android.app.LoaderManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.content.Intent;
-import android.content.Loader;
+import android.support.v4.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
@@ -179,7 +180,8 @@ public class ArticleDetailFragment extends Fragment implements
                                 + "</font>"));
 
             }
-            bodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY).replaceAll("(\r\n|\n)", "<br />")));
+            String bodyString = mCursor.getString(ArticleLoader.Query.BODY).replaceAll("\r", "").replaceAll("\n\n", "<br/><br />").replaceAll("\n", " ");
+            bodyView.setText(Html.fromHtml(bodyString.substring(0, 1024)));
         } else {
             mRootView.setVisibility(View.GONE);
             titleView.setText("N/A");
@@ -194,7 +196,7 @@ public class ArticleDetailFragment extends Fragment implements
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+    public void onLoadFinished(@NonNull android.support.v4.content.Loader<Cursor> cursorLoader, Cursor cursor) {
         if (!isAdded()) {
             if (cursor != null) {
                 cursor.close();
@@ -213,9 +215,34 @@ public class ArticleDetailFragment extends Fragment implements
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+    public void onLoaderReset(@NonNull android.support.v4.content.Loader<Cursor> loader) {
         mCursor = null;
         bindViews();
     }
+
+//    @Override
+//    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+//        if (!isAdded()) {
+//            if (cursor != null) {
+//                cursor.close();
+//            }
+//            return;
+//        }
+//
+//        mCursor = cursor;
+//        if (mCursor != null && !mCursor.moveToFirst()) {
+//            Log.d(TAG, "Error reading item detail cursor");
+//            mCursor.close();
+//            mCursor = null;
+//        }
+//
+//        bindViews();
+//    }
+
+//    @Override
+//    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+//        mCursor = null;
+//        bindViews();
+//    }
 
 }

@@ -66,8 +66,7 @@ public class UpdaterService extends IntentService {
                 values.put(ItemsContract.Items.SERVER_ID, object.getString("id" ));
                 values.put(ItemsContract.Items.AUTHOR, object.getString("author" ));
                 values.put(ItemsContract.Items.TITLE, object.getString("title" ));
-                // get rid of all those single linebreaks in the text, substring for testing
-                values.put(ItemsContract.Items.BODY, object.getString("body" ).replaceAll("(?<![\\r\\n])(\\r?\\n|\\r)(?![\\r\\n])", " ").substring(0, 1024));
+                values.put(ItemsContract.Items.BODY, object.getString("body" ));
                 values.put(ItemsContract.Items.THUMB_URL, object.getString("thumb" ));
                 values.put(ItemsContract.Items.PHOTO_URL, object.getString("photo" ));
                 values.put(ItemsContract.Items.ASPECT_RATIO, object.getString("aspect_ratio" ));
