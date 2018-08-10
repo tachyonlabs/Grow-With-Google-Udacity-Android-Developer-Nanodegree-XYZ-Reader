@@ -1,12 +1,17 @@
 package com.tachyonlabs.xyzreader.ui;
 
 import com.tachyonlabs.xyzreader.R;
+import com.tachyonlabs.xyzreader.adapters.ArticleListAdapter;
 import com.tachyonlabs.xyzreader.data.ArticleLoader;
 import com.tachyonlabs.xyzreader.data.ItemsContract;
+import com.tachyonlabs.xyzreader.data.UpdaterService;
 import com.tachyonlabs.xyzreader.databinding.ActivityArticleListBinding;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -52,6 +57,43 @@ public class ArticleListActivity extends AppCompatActivity implements
         mRecyclerView.setAdapter(mAdapter);
 
         getSupportLoaderManager().initLoader(0, null, this);
+
+        if (savedInstanceState == null) {
+            refresh();
+        }
+    }
+
+    private void refresh() {
+        startService(new Intent(this, UpdaterService.class));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(mRefreshingReceiver,
+                new IntentFilter(UpdaterService.BROADCAST_ACTION_STATE_CHANGE));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(mRefreshingReceiver);
+    }
+
+    private boolean mIsRefreshing = false;
+
+    private BroadcastReceiver mRefreshingReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (UpdaterService.BROADCAST_ACTION_STATE_CHANGE.equals(intent.getAction())) {
+                mIsRefreshing = intent.getBooleanExtra(UpdaterService.EXTRA_REFRESHING, false);
+                updateRefreshingUI();
+            }
+        }
+    };
+
+    private void updateRefreshingUI() {
+        mSwipeRefreshLayout.setRefreshing(mIsRefreshing);
     }
 
     @Override

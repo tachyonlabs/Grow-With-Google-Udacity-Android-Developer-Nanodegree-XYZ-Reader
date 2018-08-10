@@ -1,4 +1,4 @@
-package com.tachyonlabs.xyzreader.ui;
+package com.tachyonlabs.xyzreader.adapters;
 
 import com.github.florent37.picassopalette.PicassoPalette;
 import com.squareup.picasso.Picasso;

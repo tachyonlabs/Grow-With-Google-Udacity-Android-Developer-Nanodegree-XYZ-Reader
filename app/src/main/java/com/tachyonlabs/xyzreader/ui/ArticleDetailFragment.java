@@ -5,14 +5,14 @@ import com.squareup.picasso.Picasso;
 import com.tachyonlabs.xyzreader.R;
 import com.tachyonlabs.xyzreader.data.ArticleLoader;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
-import android.content.Intent;
-import android.support.v4.content.Loader;
-import android.database.Cursor;
-import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -24,7 +24,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -160,7 +159,7 @@ public class ArticleDetailFragment extends Fragment implements
                                     .intoBackground(titleLayout, PicassoPalette.Swatch.RGB)
                     );
             titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
-            Toast.makeText(getActivity(), mCursor.getString(ArticleLoader.Query.TITLE), Toast.LENGTH_LONG).show();
+//            Toast.makeText(getActivity(), mCursor.getString(ArticleLoader.Query.TITLE), Toast.LENGTH_LONG).show();
             Date publishedDate = com.tachyonlabs.xyzreader.utils.DateUtils.parsePublishedDate(mCursor.getString(ArticleLoader.Query.PUBLISHED_DATE));
             if (!publishedDate.before(START_OF_EPOCH.getTime())) {
                 bylineView.setText(Html.fromHtml(
@@ -180,13 +179,8 @@ public class ArticleDetailFragment extends Fragment implements
                                 + "</font>"));
 
             }
-            String bodyString = mCursor.getString(ArticleLoader.Query.BODY).replaceAll("\r", "").replaceAll("\n\n", "<br/><br />").replaceAll("\n", " ");
-            bodyView.setText(Html.fromHtml(bodyString.substring(0, 1024)));
-        } else {
-            mRootView.setVisibility(View.GONE);
-            titleView.setText("N/A");
-            bylineView.setText("N/A" );
-            bodyView.setText("N/A");
+            String bodyString = mCursor.getString(ArticleLoader.Query.BODY).substring(0, 1000).replaceAll("\r", "").replaceAll("\n\n", "<br/><br/>").replaceAll("\n", " ");
+            bodyView.setText(Html.fromHtml(bodyString));
         }
     }
 

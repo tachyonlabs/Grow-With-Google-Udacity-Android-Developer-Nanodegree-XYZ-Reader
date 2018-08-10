@@ -87,17 +87,18 @@
                         android:layout_height="wrap_content"
                         android:textColor="#fff" />
             </LinearLayout>
+
             <TextView
                     android:id="@+id/article_body"
                     android:text="BODY"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="24dp"
-                    android:paddingBottom="@dimen/detail_body_bottom_margin"
                     android:textColorLink="@color/theme_accent"
-                    android:textSize="@dimen/detail_body_text_size"
+                    android:textSize="22sp"
                     android:fontFamily="@font/merriweather"
                     android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"/>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
