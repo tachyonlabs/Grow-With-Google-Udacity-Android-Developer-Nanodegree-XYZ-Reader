@@ -14,7 +14,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +21,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * A fragment representing a single Article detail screen. This fragment is
@@ -48,11 +43,6 @@ public class ArticleDetailFragment extends Fragment implements
     private int mScrollY;
     private boolean mIsCard = false;
     private int mStatusBarFullOpacityBottom;
-
-    // Use default locale format
-    private SimpleDateFormat outputFormat = new SimpleDateFormat();
-    // Most time functions can only handle 1902 - 2037
-    private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -141,7 +131,6 @@ public class ArticleDetailFragment extends Fragment implements
         TextView bodyView = mRootView.findViewById(R.id.article_body);
 
         if (mCursor != null) {
-            mRootView.setVisibility(View.VISIBLE);
             String photoUrlString = mCursor.getString(ArticleLoader.Query.PHOTO_URL);
             Picasso.with(getActivity())
                     .load(photoUrlString)
@@ -156,26 +145,7 @@ public class ArticleDetailFragment extends Fragment implements
                                     .intoBackground(titleLayout, PicassoPalette.Swatch.RGB)
                     );
             titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
-//            Toast.makeText(getActivity(), mCursor.getString(ArticleLoader.Query.TITLE), Toast.LENGTH_LONG).show();
-            Date publishedDate = com.tachyonlabs.xyzreader.utils.DateUtils.parsePublishedDate(mCursor.getString(ArticleLoader.Query.PUBLISHED_DATE));
-            if (!publishedDate.before(START_OF_EPOCH.getTime())) {
-                bylineView.setText(Html.fromHtml(
-                        DateUtils.getRelativeTimeSpanString(
-                                publishedDate.getTime(),
-                                System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
-                                DateUtils.FORMAT_ABBREV_ALL).toString()
-                                + " by <font color='#ffffff'>"
-                                + mCursor.getString(ArticleLoader.Query.AUTHOR)
-                                + "</font>"));
-
-            } else {
-                // If date is before 1902, just show the string
-                bylineView.setText(Html.fromHtml(
-                        outputFormat.format(publishedDate) + " by <font color='#ffffff'>"
-                        + mCursor.getString(ArticleLoader.Query.AUTHOR)
-                                + "</font>"));
-
-            }
+            bylineView.setText(String.format("%s, %s", mCursor.getString(ArticleLoader.Query.AUTHOR), com.tachyonlabs.xyzreader.utils.DateUtils.parsePublishedDate(mCursor.getString(ArticleLoader.Query.PUBLISHED_DATE))));
             String bodyString = mCursor.getString(ArticleLoader.Query.BODY).substring(0, 2000).replaceAll("\r", "").replaceAll("\n\n", "<br/><br/>").replaceAll("\n", " ");
             bodyView.setText(Html.fromHtml(bodyString));
         }

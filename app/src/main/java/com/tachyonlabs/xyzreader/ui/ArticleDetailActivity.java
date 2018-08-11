@@ -19,7 +19,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 /**
  * An activity representing a single Article detail screen, letting you swipe between articles.
@@ -151,9 +150,7 @@ public class ArticleDetailActivity extends AppCompatActivity
     }
 
     private void fabShare() {
-        int which = mPager.getCurrentItem();
-        mCursor.moveToPosition(which);
-        Toast.makeText(this, mCursor.getString(ArticleLoader.Query.TITLE), Toast.LENGTH_LONG).show();
+        mCursor.moveToPosition(mPager.getCurrentItem());
         startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
                 .setSubject(String.format("%s, by %s, %s",

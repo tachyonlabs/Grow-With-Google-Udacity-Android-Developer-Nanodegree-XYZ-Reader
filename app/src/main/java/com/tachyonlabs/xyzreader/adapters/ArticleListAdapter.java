@@ -4,13 +4,13 @@ import com.github.florent37.picassopalette.PicassoPalette;
 import com.squareup.picasso.Picasso;
 import com.tachyonlabs.xyzreader.R;
 import com.tachyonlabs.xyzreader.data.ArticleLoader;
+import com.tachyonlabs.xyzreader.utils.DateUtils;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,18 +19,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ArticleListAdapterViewHolder> {
     private final static String TAG = ArticleListAdapter.class.getSimpleName();
     private final ArticleListAdapterOnClickHandler mClickHandler;
     private Cursor mCursor;
-    // Most time functions can only handle 1902 - 2037
-    private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2, 1, 1);
-    // Use default locale format
-    private SimpleDateFormat outputFormat = new SimpleDateFormat();
 
     public ArticleListAdapter(Context context, ArticleListAdapterOnClickHandler articleListAdapterOnClickHandler) {
         mClickHandler = articleListAdapterOnClickHandler;
@@ -60,29 +52,15 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         mCursor.moveToPosition(position);
         Log.d(TAG, "onBindViewHolder position is " + position + " " + mCursor.getString(ArticleLoader.Query.TITLE));
         holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
-        Date publishedDate = com.tachyonlabs.xyzreader.utils.DateUtils.parsePublishedDate(mCursor.getString(ArticleLoader.Query.PUBLISHED_DATE));
-        if (!publishedDate.before(START_OF_EPOCH.getTime())) {
-
-            holder.subtitleView.setText(Html.fromHtml(
-                    mCursor.getString(ArticleLoader.Query.AUTHOR)
-                            + "<br/>" +
-                            DateUtils.getRelativeTimeSpanString(
-                                    publishedDate.getTime(),
-                                    System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
-                                    DateUtils.FORMAT_ABBREV_ALL).toString()));
-        } else {
-            holder.subtitleView.setText(Html.fromHtml(
-                    mCursor.getString(ArticleLoader.Query.AUTHOR)
-                            + "<br/>" + outputFormat.format(publishedDate)));
-        }
-
-        String photoUrlString = mCursor.getString(ArticleLoader.Query.THUMB_URL);
+        holder.subtitleView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.AUTHOR) + "<br/>" +
+                DateUtils.parsePublishedDate(mCursor.getString(ArticleLoader.Query.PUBLISHED_DATE))));
+        String thumbnailUrlString = mCursor.getString(ArticleLoader.Query.THUMB_URL);
         Picasso.with(holder.thumbnailView.getContext())
-                .load(photoUrlString)
+                .load(thumbnailUrlString)
                 .placeholder(R.drawable.empty_detail)
                 .error(R.drawable.empty_detail)
                 .into(holder.thumbnailView,
-                        PicassoPalette.with(photoUrlString, holder.thumbnailView)
+                        PicassoPalette.with(thumbnailUrlString, holder.thumbnailView)
                                 .use(PicassoPalette.Profile.MUTED_DARK)
                                 .intoBackground(holder.textBackground)
 
