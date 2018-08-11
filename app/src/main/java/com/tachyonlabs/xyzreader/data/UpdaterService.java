@@ -66,9 +66,7 @@ public class UpdaterService extends IntentService {
                 values.put(ItemsContract.Items.SERVER_ID, object.getString("id" ));
                 values.put(ItemsContract.Items.AUTHOR, object.getString("author" ));
                 values.put(ItemsContract.Items.TITLE, object.getString("title" ));
-                String bodyString = object.getString("body" );
-                bodyString = bodyString.replaceAll("\r", "").replaceAll("\n\n", "\r").replaceAll("\n", " ");
-                values.put(ItemsContract.Items.BODY, bodyString);
+                values.put(ItemsContract.Items.BODY, object.getString("body" ));
                 values.put(ItemsContract.Items.THUMB_URL, object.getString("thumb" ));
                 values.put(ItemsContract.Items.PHOTO_URL, object.getString("photo" ));
                 values.put(ItemsContract.Items.ASPECT_RATIO, object.getString("aspect_ratio" ));

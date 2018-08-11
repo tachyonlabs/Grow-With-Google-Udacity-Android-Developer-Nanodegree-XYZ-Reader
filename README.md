@@ -4,9 +4,9 @@ When complete, this will be my submission for the sixth project in the "Grow Wit
 scholarship Udacity/Google Android Developer Nanodegree program. #GoogleUdacityScholars 
 #GrowWithGoogle #MadeWithUdacity
 
-### Screenshots
+### Video Walkthrough and Screenshots
 
-![XYZ Reader article list activity](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/article_list_activity.png "XYZ Reader article list activity")
+![XYZ Reader video walkthrough](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/xyz_reader.gif "XYZ Reader video walkthrough") &nbsp; &nbsp; ![XYZ Reader article list activity](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/article_list_activity.png "XYZ Reader article list activity") &nbsp; &nbsp; ![XYZ Reader article detail activity](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/article_detail_activity.png "XYZ Reader article detail activity")
 
 ## How Will I Complete this Project?
 
@@ -38,9 +38,9 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
 * [x] App provides a Floating Action Button for the most common action(s).
 * [ ] App properly specifies elevations for app bars, FABs, and other elements specified in the Material Design specification.
 * [x] App has a consistent color theme defined in styles.xml. Color theme does not impact usability of the app.
-* [ ] App provides sufficient space between text and surrounding elements.
+* [x] App provides sufficient space between text and surrounding elements.
 * [x] App uses images that are high quality, specific, and full bleed.
-* [ ] App uses fonts that are either the Android defaults, are complementary, and aren't otherwise distracting.
+* [x] App uses fonts that are either the Android defaults, are complementary, and aren't otherwise distracting.
 * [x] App utilizes stable release versions of all libraries, Gradle, and Android Studio.
 * [ ] App conforms to common standards found in the Android Nanodegree General Project Guidelines.
 
@@ -50,18 +50,18 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
 
 #### Standard Design
 * [x] App does not redefine the expected function of a system icon (such as the Back button).
-* [ ] App does not redefine or misuse Android UI patterns, such that icons or behaviors could be misleading or confusing to users.
+* [x] App does not redefine or misuse Android UI patterns, such that icons or behaviors could be misleading or confusing to users.
 
 #### Navigation
-* [ ] App supports standard system Back button navigation and does not make use of any custom, on-screen "Back button" prompts.
-* [ ] All dialogs are dismissible using the Back button.
-* [ ] Pressing the Home button at any point navigates to the Home screen of the device.
+* [x] App supports standard system Back button navigation and does not make use of any custom, on-screen "Back button" prompts.
+* [x] All dialogs are dismissible using the Back button.
+* [x] Pressing the Home button at any point navigates to the Home screen of the device.
 
 ### Functionality
 
 #### Permissions
-* [ ] App does not redefine or misuse Android UI patterns, such that icons or behaviors could be misleading or confusing to users.
-* [ ] App does not request permissions to access sensitive data or services that can cost the user money, unless related to a core capability of the app.
+* [x] App does not redefine or misuse Android UI patterns, such that icons or behaviors could be misleading or confusing to users.
+* [x] App does not request permissions to access sensitive data or services that can cost the user money, unless related to a core capability of the app.
 
 #### User/App State
 * [ ] App correctly preserves and restores user or app state, that is, student uses a bundle to save app state and restores it via onSaveInstanceState/onRestoreInstanceState. For example,
@@ -85,9 +85,6 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
 * [ ] App’s code follows standard Java/Android Style Guidelines.
 
 ## Notes and acknowledgments
-
-Many thanks to [Extracting colors from images: Integrating Picasso and Palette](https://medium.com/david-developer/extracting-colors-from-images-integrating-picasso-and-palette-b9ba45c9c418) 
-for a technique for getting a palette from within Picasso code rather than having to reload the image.
 
 I made the accent color the same color as the primary, because the only place you see the accent color is 
 in the Article Detail activity, which takes its palette from the photo rather than the app theme, so I 

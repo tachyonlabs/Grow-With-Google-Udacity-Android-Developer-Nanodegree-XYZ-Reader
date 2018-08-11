@@ -29,8 +29,6 @@ public class ArticleDetailActivity extends AppCompatActivity
     private ActivityArticleDetailBinding mBinding;
 
     private long mSelectedItemId;
-    private int mSelectedItemUpButtonFloor = Integer.MAX_VALUE;
-    private int mTopInset;
 
     private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
@@ -42,6 +40,7 @@ public class ArticleDetailActivity extends AppCompatActivity
         mWhichWasClicked = bundle.getInt("pos");
         Log.d(TAG,"Pos clicked " + mWhichWasClicked);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_article_detail);
+        supportPostponeEnterTransition();
 
         getSupportLoaderManager().initLoader(0, null, this);
 

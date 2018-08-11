@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:theme="@style/DetailTheme"
         android:fitsSystemWindows="true"
@@ -12,8 +11,7 @@
             android:id="@+id/app_bar_layout_detail"
             android:layout_width="match_parent"
             android:fitsSystemWindows="true"
-            android:layout_height="275dp"
-            android:background="?colorPrimary">
+            android:layout_height="275dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar_layout_detail"
@@ -61,7 +59,6 @@
                     android:id="@+id/meta_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#333"
                     android:orientation="vertical"
                     android:paddingLeft="24dp"
                     android:paddingRight="@dimen/detail_inner_horiz_margin"
@@ -73,24 +70,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
-                        android:text="TITLE"
                         android:textColor="#fff"
                         android:textSize="@dimen/detail_title_text_size"
                         android:fontFamily="@font/merriweather_sans_bolditalic"
-                        android:lineSpacingMultiplier="0.9" />
+                        android:lineSpacingMultiplier="0.9"/>
 
                 <TextView
                         android:id="@+id/article_byline"
-                        android:text="BYLINE"
                         android:fontFamily="@font/merriweather_sans_regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#fff" />
+                        android:textColor="#fff"/>
             </LinearLayout>
 
             <TextView
                     android:id="@+id/article_body"
-                    android:text="BODY"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="24dp"

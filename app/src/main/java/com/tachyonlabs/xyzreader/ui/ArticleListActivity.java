@@ -8,7 +8,6 @@ import com.tachyonlabs.xyzreader.data.UpdaterService;
 import com.tachyonlabs.xyzreader.databinding.ActivityArticleListBinding;
 
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -34,16 +33,15 @@ public class ArticleListActivity extends AppCompatActivity implements
         ArticleListAdapter.ArticleListAdapterOnClickHandler {
 
     private static final String TAG = ArticleListActivity.class.getSimpleName();
-    ContentResolver mContentResolver;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private ArticleListAdapter mAdapter;
     private ActivityArticleListBinding mBinding;
+    private boolean mIsRefreshing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContentResolver = getContentResolver();
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_article_list);
         mSwipeRefreshLayout = mBinding.swipeRefreshLayout;
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -79,8 +77,6 @@ public class ArticleListActivity extends AppCompatActivity implements
         super.onStop();
         unregisterReceiver(mRefreshingReceiver);
     }
-
-    private boolean mIsRefreshing = false;
 
     private BroadcastReceiver mRefreshingReceiver = new BroadcastReceiver() {
         @Override
@@ -121,6 +117,13 @@ public class ArticleListActivity extends AppCompatActivity implements
     public void onClick(int position, View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW, ItemsContract.Items.buildItemUri(position));
         intent.putExtra("pos", position);
+//        ImageView thumbnail = view.findViewById(R.id.thumbnail);
+//        thumbnail.setTransitionName(getString(R.string.transition_article_photo));
+//        ActivityOptionsCompat options = ActivityOptionsCompat.
+//                makeSceneTransitionAnimation(this,
+//                        thumbnail,
+//                        ViewCompat.getTransitionName(thumbnail));
+//        startActivity(intent, options.toBundle());
         startActivity(intent);
     }
 

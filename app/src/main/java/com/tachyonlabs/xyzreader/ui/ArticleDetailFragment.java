@@ -129,6 +129,15 @@ public class ArticleDetailFragment extends Fragment implements
         });
 
         bindViews();
+//        final View sharedView = mRootView.findViewById(R.id.iv_article_photo);
+//        sharedView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+//            @Override
+//            public boolean onPreDraw() {
+//                sharedView.getViewTreeObserver().removeOnPreDrawListener(this);
+//                getActivity().startPostponedEnterTransition();
+//                return true;
+//            }
+//        });
         return mRootView;
     }
 
@@ -179,7 +188,7 @@ public class ArticleDetailFragment extends Fragment implements
                                 + "</font>"));
 
             }
-            String bodyString = mCursor.getString(ArticleLoader.Query.BODY).substring(0, 1000).replaceAll("\r", "").replaceAll("\n\n", "<br/><br/>").replaceAll("\n", " ");
+            String bodyString = mCursor.getString(ArticleLoader.Query.BODY).substring(0, 2000).replaceAll("\r", "").replaceAll("\n\n", "<br/><br/>").replaceAll("\n", " ");
             bodyView.setText(Html.fromHtml(bodyString));
         }
     }

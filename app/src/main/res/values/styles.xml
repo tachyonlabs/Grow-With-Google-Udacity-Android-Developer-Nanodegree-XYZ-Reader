@@ -28,6 +28,7 @@
         <item name="colorPrimaryDark">#D84315</item>
         <item name="colorAccent">#FD5621</item>
         <!--<item name="colorAccent">#0091EA</item>-->
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="DetailTheme" parent="AppTheme">
