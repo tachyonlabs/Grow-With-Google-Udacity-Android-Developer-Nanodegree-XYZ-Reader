@@ -5,13 +5,11 @@ import com.squareup.picasso.Picasso;
 import com.tachyonlabs.xyzreader.R;
 import com.tachyonlabs.xyzreader.data.ArticleLoader;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.ShareCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -117,16 +115,6 @@ public class ArticleDetailFragment extends Fragment implements
         });
 
         mPhotoView = mRootView.findViewById(R.id.iv_article_photo);
-
-        mRootView.findViewById(R.id.share_fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
-                        .setType("text/plain")
-                        .setText("Some sample text")
-                        .getIntent(), getString(R.string.action_share)));
-            }
-        });
 
         bindViews();
 //        final View sharedView = mRootView.findViewById(R.id.iv_article_photo);

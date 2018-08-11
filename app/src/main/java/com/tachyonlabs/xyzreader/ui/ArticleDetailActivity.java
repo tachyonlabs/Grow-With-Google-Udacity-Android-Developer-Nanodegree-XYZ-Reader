@@ -5,6 +5,7 @@ import com.tachyonlabs.xyzreader.data.ArticleLoader;
 import com.tachyonlabs.xyzreader.data.ItemsContract;
 import com.tachyonlabs.xyzreader.databinding.ActivityArticleDetailBinding;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -12,10 +13,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 /**
  * An activity representing a single Article detail screen, letting you swipe between articles.
@@ -56,6 +60,13 @@ public class ArticleDetailActivity extends AppCompatActivity
                     mCursor.moveToPosition(position);
                 }
                 mSelectedItemId = mCursor.getLong(ArticleLoader.Query._ID);
+            }
+        });
+
+        mBinding.shareFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fabShare();
             }
         });
 
@@ -137,6 +148,20 @@ public class ArticleDetailActivity extends AppCompatActivity
         public int getCount() {
             return (mCursor != null) ? mCursor.getCount() : 0;
         }
+    }
+
+    private void fabShare() {
+        int which = mPager.getCurrentItem();
+        mCursor.moveToPosition(which);
+        Toast.makeText(this, mCursor.getString(ArticleLoader.Query.TITLE), Toast.LENGTH_LONG).show();
+        startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setSubject(String.format("%s, by %s, %s",
+                        mCursor.getString(ArticleLoader.Query.TITLE),
+                        mCursor.getString(ArticleLoader.Query.AUTHOR),
+                        mCursor.getString(ArticleLoader.Query.PUBLISHED_DATE)))
+                .setText(mCursor.getString(ArticleLoader.Query.BODY))
+                .getIntent(), getString(R.string.action_share)));
     }
 
 }
