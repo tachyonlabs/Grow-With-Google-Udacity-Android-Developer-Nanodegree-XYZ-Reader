@@ -71,6 +71,11 @@ public class ArticleDetailFragment extends Fragment implements
         mStatusBarFullOpacityBottom = getResources().getDimensionPixelSize(
                 R.dimen.detail_card_top_margin);
         setHasOptionsMenu(true);
+
+//        Transition transition =
+//                TransitionInflater.from(getContext())
+//                        .inflateTransition(R.transition.image_shared_element_transition);
+//        setSharedElementEnterTransition(transition);
     }
 
     public ArticleDetailActivity getActivityCast() {
@@ -92,6 +97,10 @@ public class ArticleDetailFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
+
+        getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
         Toolbar toolbar = mRootView.findViewById(R.id.tb_detail_fragment);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);

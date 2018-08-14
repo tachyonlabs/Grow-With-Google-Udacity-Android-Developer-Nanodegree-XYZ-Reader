@@ -43,7 +43,11 @@ public class ArticleDetailActivity extends AppCompatActivity
         mWhichWasClicked = bundle.getInt("pos");
         Log.d(TAG,"Pos clicked " + mWhichWasClicked);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_article_detail);
-        supportPostponeEnterTransition();
+//        supportPostponeEnterTransition();
+
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
         getSupportLoaderManager().initLoader(0, null, this);
 

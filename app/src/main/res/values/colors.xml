@@ -27,6 +27,7 @@
     <color name="theme_primary_dark">#D84315</color>
     <color name="theme_accent">#FD5621</color>
     <!--<color name="theme_accent">#0091EA</color>-->
+    <color name="white">#fff</color>
     <color name="ltgray">#ffe0e0e0</color>
     <color name="medgray">#9E9E9E</color>
     <color name="primary_dark_material_dark">#D84315</color>
