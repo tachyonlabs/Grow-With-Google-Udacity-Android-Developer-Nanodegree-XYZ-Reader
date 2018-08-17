@@ -65,17 +65,17 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
 
 #### User/App State
 * [ ] App correctly preserves and restores user or app state, that is, student uses a bundle to save app state and restores it via onSaveInstanceState/onRestoreInstanceState. For example,
-    * [ ] When a list item is selected, it remains selected on rotation.
-    * [ ] When an activity is displayed, the same activity appears on rotation.
-    * [ ] User text input is preserved on rotation.
-    * [ ] Maintains list items positions on device rotation.
+    * [n/a] When a list item is selected, it remains selected on rotation.
+    * [x] When an activity is displayed, the same activity appears on rotation.
+    * [n/a] User text input is preserved on rotation.
+    * [n/a with StaggeredGridLayoutManager, and number of columns dependent on orientation] Maintains list items positions on device rotation.
 * [ ] When the app is resumed after the device wakes from sleep (locked) state, the app returns the user to the exact state in which it was last used.
 * [ ] When the app is relaunched from Home or All Apps, the app restores the app state as closely as possible to the previous state.
 
 ### Performance and Stability
 
 #### Stability
-* [ ] App does not crash, force close, freeze, or otherwise function abnormally on any targeted device.
+* [x] App does not crash, force close, freeze, or otherwise function abnormally on any targeted device.
 
 ### Google Play
 

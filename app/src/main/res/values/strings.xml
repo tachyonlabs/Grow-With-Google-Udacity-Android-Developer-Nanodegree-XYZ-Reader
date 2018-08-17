@@ -9,6 +9,6 @@
 
     <string name="up">Up</string>
 
-    <string name="transition_article_photo" translatable="false">transition_article_photo</string>
+    <string name="current_page_key">current_page_key</string>
 
 </resources>

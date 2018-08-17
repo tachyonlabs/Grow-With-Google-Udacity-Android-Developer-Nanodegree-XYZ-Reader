@@ -27,13 +27,15 @@
         <item name="colorPrimary">#FD5621</item>
         <item name="colorPrimaryDark">#D84315</item>
         <item name="colorAccent">#FD5621</item>
-        <!--<item name="colorAccent">#0091EA</item>-->
-        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="DetailTheme" parent="AppTheme">
         <item name="colorPrimary">@android:color/transparent</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
+    </style>
+
+    <style name="DetailToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
     </style>
 
 </resources>

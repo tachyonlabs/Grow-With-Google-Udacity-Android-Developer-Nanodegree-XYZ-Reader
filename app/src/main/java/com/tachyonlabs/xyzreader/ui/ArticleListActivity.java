@@ -116,7 +116,7 @@ public class ArticleListActivity extends AppCompatActivity implements
     @Override
     public void onClick(int position, View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW, ItemsContract.Items.buildItemUri(position));
-        intent.putExtra("pos", position);
+        intent.putExtra(getString(R.string.current_page_key), position);
 //        ImageView thumbnail = view.findViewById(R.id.thumbnail);
 //        thumbnail.setTransitionName(getString(R.string.transition_article_photo));
 //        ActivityOptionsCompat options = ActivityOptionsCompat.

@@ -3,8 +3,8 @@
     <integer name="list_column_count">4</integer>
 
     <!-- detail -->
-    <bool name="detail_is_card">true</bool>
-
-    <dimen name="detail_photo_height">600dp</dimen>
-    <dimen name="detail_card_top_margin">256dp</dimen>
+    <bool name="is_tablet">true</bool>
+    <bool name="is_landscape">true</bool>
+    <dimen name="detail_side_margin">160dp</dimen>
+    <dimen name="detail_bottom_margin">0dp</dimen>
 </resources>

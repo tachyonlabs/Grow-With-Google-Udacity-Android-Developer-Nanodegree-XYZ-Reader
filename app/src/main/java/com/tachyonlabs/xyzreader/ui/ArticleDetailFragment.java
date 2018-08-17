@@ -8,6 +8,8 @@ import com.tachyonlabs.xyzreader.data.ArticleLoader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -30,19 +32,20 @@ import android.widget.TextView;
 public class ArticleDetailFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = ArticleDetailFragment.class.getSimpleName();
-
+    private static final String paragraphIndent = "     ";
     public static final String ARG_ITEM_ID = "item_id";
 
     private Cursor mCursor;
     private long mItemId;
     private View mRootView;
 
-    private int mTopInset;
     private View mPhotoContainerView;
     private ImageView mPhotoView;
+    private Toolbar mToolbar;
     private int mScrollY;
-    private boolean mIsCard = false;
-    private int mStatusBarFullOpacityBottom;
+    private boolean mIsLandscape;
+    private boolean mIsTablet;
+    private String mTitle;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -67,15 +70,7 @@ public class ArticleDetailFragment extends Fragment implements
             mItemId = getArguments().getLong(ARG_ITEM_ID);
         }
 
-        mIsCard = getResources().getBoolean(R.bool.detail_is_card);
-        mStatusBarFullOpacityBottom = getResources().getDimensionPixelSize(
-                R.dimen.detail_card_top_margin);
         setHasOptionsMenu(true);
-
-//        Transition transition =
-//                TransitionInflater.from(getContext())
-//                        .inflateTransition(R.transition.image_shared_element_transition);
-//        setSharedElementEnterTransition(transition);
     }
 
     public ArticleDetailActivity getActivityCast() {
@@ -96,35 +91,52 @@ public class ArticleDetailFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        mIsTablet = getResources().getBoolean(R.bool.is_tablet);
+        mIsLandscape = getResources().getBoolean(R.bool.is_landscape);
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
 
         getActivity().getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
-        Toolbar toolbar = mRootView.findViewById(R.id.tb_detail_fragment);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        mToolbar = mRootView.findViewById(R.id.tb_detail_fragment);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
             }
         });
 
+        if (!mIsTablet) {
+            final CollapsingToolbarLayout collapsingToolbarLayout = mRootView.findViewById(R.id.collapsing_toolbar_layout_detail);
+            collapsingToolbarLayout.setTitleEnabled(false);
+            AppBarLayout appBarLayout = mRootView.findViewById(R.id.app_bar_layout_detail);
+            appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                boolean isShow = true;
+                int scrollRange = -1;
+
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                    if (scrollRange == -1) {
+                        scrollRange = appBarLayout.getTotalScrollRange();
+                    }
+                    if (scrollRange + verticalOffset == 0) {
+                        mToolbar.setTitle(mTitle);
+                        isShow = true;
+                    } else if(isShow) {
+                        mToolbar.setTitle(" ");
+                        isShow = false;
+                    }
+                }
+            });        }
+
         mPhotoView = mRootView.findViewById(R.id.iv_article_photo);
 
         bindViews();
-//        final View sharedView = mRootView.findViewById(R.id.iv_article_photo);
-//        sharedView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-//            @Override
-//            public boolean onPreDraw() {
-//                sharedView.getViewTreeObserver().removeOnPreDrawListener(this);
-//                getActivity().startPostponedEnterTransition();
-//                return true;
-//            }
-//        });
+
         return mRootView;
     }
 
@@ -138,6 +150,11 @@ public class ArticleDetailFragment extends Fragment implements
         TextView titleView = mRootView.findViewById(R.id.article_title);
         TextView bylineView = mRootView.findViewById(R.id.article_byline);
         TextView bodyView = mRootView.findViewById(R.id.article_body);
+
+//        if (mIsTablet) {
+//            ScrollView.LayoutParams parameter =  (ScrollView.LayoutParams) scrollView.getLayoutParams();
+//            parameter.setMargins(mToolbarHeight, parameter.topMargin, parameter.rightMargin, parameter.bottomMargin); // left, top, right, bottom
+//            txtField.setLayoutParams(parameter);        }
 
         if (mCursor != null) {
             String photoUrlString = mCursor.getString(ArticleLoader.Query.PHOTO_URL);
@@ -153,10 +170,12 @@ public class ArticleDetailFragment extends Fragment implements
                                     .use(PicassoPalette.Profile.VIBRANT)
                                     .intoBackground(titleLayout, PicassoPalette.Swatch.RGB)
                     );
-            titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
+            String title = mCursor.getString(ArticleLoader.Query.TITLE);
+            titleView.setText(title);
             bylineView.setText(String.format("%s, %s", mCursor.getString(ArticleLoader.Query.AUTHOR), com.tachyonlabs.xyzreader.utils.DateUtils.parsePublishedDate(mCursor.getString(ArticleLoader.Query.PUBLISHED_DATE))));
-            String bodyString = mCursor.getString(ArticleLoader.Query.BODY).substring(0, 2000).replaceAll("\r", "").replaceAll("\n\n", "<br/><br/>").replaceAll("\n", " ");
+            String bodyString = mCursor.getString(ArticleLoader.Query.BODY).substring(0, 2000).replaceAll("\r", "").replaceAll("\n{2,}", "<br/><br/>").replaceAll("\n", " ");
             bodyView.setText(Html.fromHtml(bodyString));
+            mTitle = title;
         }
     }
 

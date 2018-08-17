@@ -11,13 +11,16 @@
             android:id="@+id/app_bar_layout_detail"
             android:layout_width="match_parent"
             android:fitsSystemWindows="true"
-            android:layout_height="275dp">
+            android:layout_height="@dimen/detail_app_bar_layout_height">
 
         <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar_layout_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
+                app:titleEnabled="false"
+                app:expandedTitleTextAppearance="@color/transparent"
+                app:collapsedTitleTextAppearance="@color/white"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -32,12 +35,12 @@
             <android.support.v7.widget.Toolbar
                     android:id="@+id/tb_detail_fragment"
                     android:layout_width="match_parent"
-                    android:layout_height="128dp"
+                    android:layout_height="?attr/actionBarSize"
+                    app:titleTextAppearance="@style/DetailToolbarTitle"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:contentInsetStart="0dp"
                     android:layout_gravity="bottom"
                     app:layout_collapseMode="pin">
-
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -59,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingLeft="24dp"
+                    android:paddingLeft="@dimen/detail_inner_horiz_margin"
                     android:paddingRight="@dimen/detail_inner_horiz_margin"
                     android:paddingTop="@dimen/detail_metabar_vert_padding"
                     android:paddingBottom="@dimen/detail_metabar_vert_padding">
@@ -86,7 +89,10 @@
                     android:id="@+id/article_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="24dp"
+                    android:layout_marginTop="@dimen/detail_article_vertical_margin"
+                    android:layout_marginBottom="@dimen/detail_article_vertical_margin"
+                    android:layout_marginLeft="@dimen/detail_article_horizontal_margin"
+                    android:layout_marginRight="@dimen/detail_article_horizontal_margin"
                     android:textColorLink="@color/theme_accent"
                     android:textSize="22sp"
                     android:fontFamily="@font/merriweather"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -30,51 +30,50 @@
                 app:contentInsetStart="0dp"
                 android:layout_marginTop="16dp"
                 android:layout_gravity="top">
-
-
         </android.support.v7.widget.Toolbar>
-        <LinearLayout
+
+        <ScrollView
+                android:id="@+id/scrollview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="128dp"
-                android:layout_marginBottom="96dp"
-                android:layout_marginLeft="96dp"
-                android:layout_marginRight="96dp"
-                android:background="@color/white"
-                android:orientation="vertical">
+                android:layout_marginBottom="@dimen/detail_bottom_margin">
 
             <LinearLayout
-                    android:id="@+id/meta_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="24dp"
-                    android:paddingRight="@dimen/detail_inner_horiz_margin"
-                    android:paddingTop="@dimen/detail_metabar_vert_padding"
-                    android:paddingBottom="@dimen/detail_metabar_vert_padding">
+                    android:layout_marginTop="@dimen/detail_top_margin"
+                    android:layout_marginLeft="@dimen/detail_side_margin"
+                    android:layout_marginRight="@dimen/detail_side_margin"
+                    android:background="@color/white"
+                    android:orientation="vertical">
 
-                <TextView
-                        android:id="@+id/article_title"
+                <LinearLayout
+                        android:id="@+id/meta_bar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
-                        android:textColor="#fff"
-                        android:textSize="@dimen/detail_title_text_size"
-                        android:fontFamily="@font/merriweather_sans_bolditalic"
-                        android:lineSpacingMultiplier="0.9"/>
+                        android:orientation="vertical"
+                        android:paddingLeft="24dp"
+                        android:paddingRight="@dimen/detail_inner_horiz_margin"
+                        android:paddingTop="@dimen/detail_metabar_vert_padding"
+                        android:paddingBottom="@dimen/detail_metabar_vert_padding">
 
-                <TextView
-                        android:id="@+id/article_byline"
-                        android:fontFamily="@font/merriweather_sans_regular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#fff"/>
-            </LinearLayout>
+                    <TextView
+                            android:id="@+id/article_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/detail_title_text_size"
+                            android:fontFamily="@font/merriweather_sans_bolditalic"
+                            android:lineSpacingMultiplier="0.9"/>
 
-            <ScrollView
-                    android:id="@+id/scrollview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    <TextView
+                            android:id="@+id/article_byline"
+                            android:fontFamily="@font/merriweather_sans_regular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#fff"/>
+                </LinearLayout>
 
                 <TextView
                         android:id="@+id/article_body"
@@ -87,9 +86,9 @@
                         tools:text="Testing ScrollView"
                         android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"/>
 
-            </ScrollView>
-        </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
     </android.support.design.widget.AppBarLayout>
 
-</android.support.constraint.ConstraintLayout>
+</FrameLayout>
