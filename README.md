@@ -4,9 +4,9 @@ When complete, this will be my submission for the sixth project in the "Grow Wit
 scholarship Udacity/Google Android Developer Nanodegree program. #GoogleUdacityScholars 
 #GrowWithGoogle #MadeWithUdacity
 
-### Video Walkthrough and Screenshots
+### Phone and Tablet Video Walkthroughs
 
-![XYZ Reader video walkthrough](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/xyz_reader.gif "XYZ Reader video walkthrough") &nbsp; &nbsp; ![XYZ Reader article list activity](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/article_list_activity.png "XYZ Reader article list activity") &nbsp; &nbsp; ![XYZ Reader article detail activity](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/article_detail_activity.png "XYZ Reader article detail activity")
+![XYZ Reader phone video walkthrough](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/xyz_reader.gif "XYZ Reader phone video walkthrough") &nbsp; &nbsp; ![XYZ Reader tablet video walkthrough](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/xyz_reader_tablet.gif "XYZ Reader tablet video walkthrough")
 
 ## How Will I Complete this Project?
 

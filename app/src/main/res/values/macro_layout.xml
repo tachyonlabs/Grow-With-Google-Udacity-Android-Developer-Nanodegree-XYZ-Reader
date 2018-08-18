@@ -14,4 +14,6 @@
     <dimen name="detail_metabar_title_bottom_padding">4dp</dimen>
     <dimen name="detail_article_horizontal_margin">24dp</dimen>
     <dimen name="detail_article_vertical_margin">24dp</dimen>
+    <dimen name="fab_margin_vertical">16dp</dimen>
+    <dimen name="fab_margin_horizontal">16dp</dimen>
 </resources>

@@ -6,5 +6,5 @@
     <bool name="is_tablet">true</bool>
     <bool name="is_landscape">true</bool>
     <dimen name="detail_side_margin">160dp</dimen>
-    <dimen name="detail_bottom_margin">0dp</dimen>
+    <dimen name="fab_margin_horizontal">176dp</dimen>
 </resources>

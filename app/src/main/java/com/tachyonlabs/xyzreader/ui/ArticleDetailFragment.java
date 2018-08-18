@@ -88,6 +88,15 @@ public class ArticleDetailFragment extends Fragment implements
         getLoaderManager().initLoader(0, null, this);
     }
 
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//                getActivity().getWindow().getDecorView().setSystemUiVisibility(
+//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//
+//    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -95,9 +104,11 @@ public class ArticleDetailFragment extends Fragment implements
         mIsLandscape = getResources().getBoolean(R.bool.is_landscape);
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
 
-        getActivity().getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        if (mIsTablet) {
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
 
         mToolbar = mRootView.findViewById(R.id.tb_detail_fragment);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);

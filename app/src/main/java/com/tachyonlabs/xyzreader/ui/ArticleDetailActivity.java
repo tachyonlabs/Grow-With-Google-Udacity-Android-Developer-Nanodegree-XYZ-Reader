@@ -19,6 +19,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 
 /**
  * An activity representing a single Article detail screen, letting you swipe between articles.
@@ -35,12 +36,23 @@ public class ArticleDetailActivity extends AppCompatActivity
 
     private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
+    private boolean mIsTablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_article_detail);
 //        supportPostponeEnterTransition();
+
+        // These are so the status bar stays transparent over the full-screen image with the tablet layout
+        mIsTablet = getResources().getBoolean(R.bool.is_tablet);
+        if (mIsTablet) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
 
         if (savedInstanceState == null) {
             if (getIntent() != null && getIntent().getData() != null) {
@@ -54,10 +66,6 @@ public class ArticleDetailActivity extends AppCompatActivity
         } else {
             mCurrentPage = savedInstanceState.getInt(getString(R.string.current_page_key));
         }
-
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
         getSupportLoaderManager().initLoader(0, null, this);
 
@@ -121,6 +129,8 @@ public class ArticleDetailActivity extends AppCompatActivity
 //        }
         mCursor.moveToPosition(mCurrentPage);
         mPager.setCurrentItem(mCurrentPage, false);
+//        FloatingActionButton fab = findViewById(R.id.share_fab);
+//        fab.set
     }
 
     @Override
