@@ -27,8 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:contentInsetStart="0dp"
-                android:layout_marginTop="16dp"
+                app:contentInsetStart="@dimen/detail_toolbar_content_inset_start"
+                android:layout_marginTop="@dimen/detail_toolbar_margin_top"
                 android:layout_gravity="top">
         </android.support.v7.widget.Toolbar>
 
@@ -47,41 +47,15 @@
                     android:background="@color/white"
                     android:orientation="vertical">
 
-                <LinearLayout
-                        android:id="@+id/meta_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingLeft="24dp"
-                        android:paddingRight="@dimen/detail_inner_horiz_margin"
-                        android:paddingTop="@dimen/detail_metabar_vert_padding"
-                        android:paddingBottom="@dimen/detail_metabar_vert_padding">
-
-                    <TextView
-                            android:id="@+id/article_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/detail_title_text_size"
-                            android:fontFamily="@font/merriweather_sans_bolditalic"
-                            android:lineSpacingMultiplier="0.9"/>
-
-                    <TextView
-                            android:id="@+id/article_byline"
-                            android:fontFamily="@font/merriweather_sans_regular"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#fff"/>
-                </LinearLayout>
+                <include layout="@layout/meta_bar"/>
 
                 <TextView
                         android:id="@+id/article_body"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="24dp"
+                        android:layout_margin="@dimen/detail_article_vertical_margin"
                         android:textColorLink="@color/theme_accent"
-                        android:textSize="22sp"
+                        android:textSize="@dimen/detail_body_text_size"
                         android:fontFamily="@font/merriweather"
                         tools:text="Testing ScrollView"
                         android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"/>

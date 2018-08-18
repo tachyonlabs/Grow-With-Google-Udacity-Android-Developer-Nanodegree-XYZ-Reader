@@ -38,6 +38,15 @@ public class ArticleListActivity extends AppCompatActivity implements
     private ArticleListAdapter mAdapter;
     private ActivityArticleListBinding mBinding;
     private boolean mIsRefreshing = false;
+    private BroadcastReceiver mRefreshingReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (UpdaterService.BROADCAST_ACTION_STATE_CHANGE.equals(intent.getAction())) {
+                mIsRefreshing = intent.getBooleanExtra(UpdaterService.EXTRA_REFRESHING, false);
+                updateRefreshingUI();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,16 +87,6 @@ public class ArticleListActivity extends AppCompatActivity implements
         unregisterReceiver(mRefreshingReceiver);
     }
 
-    private BroadcastReceiver mRefreshingReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (UpdaterService.BROADCAST_ACTION_STATE_CHANGE.equals(intent.getAction())) {
-                mIsRefreshing = intent.getBooleanExtra(UpdaterService.EXTRA_REFRESHING, false);
-                updateRefreshingUI();
-            }
-        }
-    };
-
     private void updateRefreshingUI() {
         mSwipeRefreshLayout.setRefreshing(mIsRefreshing);
     }
@@ -117,13 +116,6 @@ public class ArticleListActivity extends AppCompatActivity implements
     public void onClick(int position, View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW, ItemsContract.Items.buildItemUri(position));
         intent.putExtra(getString(R.string.current_page_key), position);
-//        ImageView thumbnail = view.findViewById(R.id.thumbnail);
-//        thumbnail.setTransitionName(getString(R.string.transition_article_photo));
-//        ActivityOptionsCompat options = ActivityOptionsCompat.
-//                makeSceneTransitionAnimation(this,
-//                        thumbnail,
-//                        ViewCompat.getTransitionName(thumbnail));
-//        startActivity(intent, options.toBundle());
         startActivity(intent);
     }
 

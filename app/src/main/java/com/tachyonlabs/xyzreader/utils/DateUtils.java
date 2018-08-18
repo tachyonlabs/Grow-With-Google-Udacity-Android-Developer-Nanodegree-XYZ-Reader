@@ -30,9 +30,9 @@ public class DateUtils {
         Date pubDate = stringToDate(date);
         if (!pubDate.before(START_OF_EPOCH.getTime())) {
             return android.text.format.DateUtils.getRelativeTimeSpanString(
-                                    pubDate.getTime(),
-                                    System.currentTimeMillis(), android.text.format.DateUtils.HOUR_IN_MILLIS,
-                                    android.text.format.DateUtils.FORMAT_ABBREV_ALL).toString();
+                    pubDate.getTime(),
+                    System.currentTimeMillis(), android.text.format.DateUtils.HOUR_IN_MILLIS,
+                    android.text.format.DateUtils.FORMAT_ABBREV_ALL).toString();
         } else {
             // If date is before 1902, just show the string
             return outputFormat.format(pubDate);

@@ -34,6 +34,8 @@
         <item name="colorPrimaryDark">@android:color/transparent</item>
     </style>
 
+    <!--Thanks to https://stackoverflow.com/a/28056935/1212526 for solving the problem I was having -->
+    <!--with tiny toolbar title text in landscape mode-->
     <style name="DetailToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20sp</item>
     </style>

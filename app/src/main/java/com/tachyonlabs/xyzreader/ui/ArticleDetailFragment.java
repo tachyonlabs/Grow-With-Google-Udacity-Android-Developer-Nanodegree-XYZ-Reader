@@ -31,19 +31,12 @@ import android.widget.TextView;
  */
 public class ArticleDetailFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String TAG = ArticleDetailFragment.class.getSimpleName();
-    private static final String paragraphIndent = "     ";
     public static final String ARG_ITEM_ID = "item_id";
-
+    private static final String TAG = ArticleDetailFragment.class.getSimpleName();
     private Cursor mCursor;
     private long mItemId;
     private View mRootView;
-
-    private View mPhotoContainerView;
-    private ImageView mPhotoView;
     private Toolbar mToolbar;
-    private int mScrollY;
-    private boolean mIsLandscape;
     private boolean mIsTablet;
     private String mTitle;
 
@@ -73,10 +66,6 @@ public class ArticleDetailFragment extends Fragment implements
         setHasOptionsMenu(true);
     }
 
-    public ArticleDetailActivity getActivityCast() {
-        return (ArticleDetailActivity) getActivity();
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -88,30 +77,14 @@ public class ArticleDetailFragment extends Fragment implements
         getLoaderManager().initLoader(0, null, this);
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//                getActivity().getWindow().getDecorView().setSystemUiVisibility(
-//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         mIsTablet = getResources().getBoolean(R.bool.is_tablet);
-        mIsLandscape = getResources().getBoolean(R.bool.is_landscape);
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
 
-        if (mIsTablet) {
-            getActivity().getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-
         mToolbar = mRootView.findViewById(R.id.tb_detail_fragment);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -121,10 +94,16 @@ public class ArticleDetailFragment extends Fragment implements
             }
         });
 
-        if (!mIsTablet) {
+        // These are so the status bar stays transparent over the full-screen image with the tablet layout
+        // Many people have posted about this on StackOverflow
+        if (mIsTablet) {
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        } else {
             final CollapsingToolbarLayout collapsingToolbarLayout = mRootView.findViewById(R.id.collapsing_toolbar_layout_detail);
-            collapsingToolbarLayout.setTitleEnabled(false);
             AppBarLayout appBarLayout = mRootView.findViewById(R.id.app_bar_layout_detail);
+            // Many thanks to https://stackoverflow.com/a/32724422/1212526 for this technique
             appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                 boolean isShow = true;
                 int scrollRange = -1;
@@ -137,14 +116,13 @@ public class ArticleDetailFragment extends Fragment implements
                     if (scrollRange + verticalOffset == 0) {
                         mToolbar.setTitle(mTitle);
                         isShow = true;
-                    } else if(isShow) {
+                    } else if (isShow) {
                         mToolbar.setTitle(" ");
                         isShow = false;
                     }
                 }
-            });        }
-
-        mPhotoView = mRootView.findViewById(R.id.iv_article_photo);
+            });
+        }
 
         bindViews();
 
@@ -161,11 +139,6 @@ public class ArticleDetailFragment extends Fragment implements
         TextView titleView = mRootView.findViewById(R.id.article_title);
         TextView bylineView = mRootView.findViewById(R.id.article_byline);
         TextView bodyView = mRootView.findViewById(R.id.article_body);
-
-//        if (mIsTablet) {
-//            ScrollView.LayoutParams parameter =  (ScrollView.LayoutParams) scrollView.getLayoutParams();
-//            parameter.setMargins(mToolbarHeight, parameter.topMargin, parameter.rightMargin, parameter.bottomMargin); // left, top, right, bottom
-//            txtField.setLayoutParams(parameter);        }
 
         if (mCursor != null) {
             String photoUrlString = mCursor.getString(ArticleLoader.Query.PHOTO_URL);
@@ -219,30 +192,4 @@ public class ArticleDetailFragment extends Fragment implements
         mCursor = null;
         bindViews();
     }
-
-//    @Override
-//    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-//        if (!isAdded()) {
-//            if (cursor != null) {
-//                cursor.close();
-//            }
-//            return;
-//        }
-//
-//        mCursor = cursor;
-//        if (mCursor != null && !mCursor.moveToFirst()) {
-//            Log.d(TAG, "Error reading item detail cursor");
-//            mCursor.close();
-//            mCursor = null;
-//        }
-//
-//        bindViews();
-//    }
-
-//    @Override
-//    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-//        mCursor = null;
-//        bindViews();
-//    }
-
 }

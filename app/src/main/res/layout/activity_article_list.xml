@@ -11,7 +11,8 @@
         <android.support.design.widget.AppBarLayout
                 android:id="@+id/app_bar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="168dp"
+                android:layout_height="@dimen/list_appbarlayout_height"
+                android:elevation="@dimen/appbarlayout_elevation"
                 android:background="?colorPrimary">
 
             <android.support.design.widget.CollapsingToolbarLayout
@@ -25,7 +26,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="?actionBarSize"
                         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                        app:contentInsetStart="16dp"
+                        app:contentInsetStart="@dimen/list_toolbar_content_inset_start"
                         android:layout_gravity="bottom"
                         app:layout_collapseMode="pin">
 
@@ -53,8 +54,8 @@
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingLeft="-8dp"
-                    android:paddingRight="-8dp"/>
+                    android:paddingLeft="@dimen/list_recyclerview_negative_horizontal_padding_to_avoid_external_white_space"
+                    android:paddingRight="@dimen/list_recyclerview_negative_horizontal_padding_to_avoid_external_white_space"/>
 
         </android.support.v4.widget.SwipeRefreshLayout>
 

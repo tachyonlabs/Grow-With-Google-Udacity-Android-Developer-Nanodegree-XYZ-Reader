@@ -4,15 +4,15 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="@dimen/list_item_horizontal_margin"
+        android:layout_marginRight="@dimen/list_item_horizontal_margin"
+        android:layout_marginBottom="@dimen/list_item_bottom_margin"
         android:orientation="vertical">
 
     <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="@dimen/list_item_thumbnail_height"
             android:scaleType="centerCrop"/>
 
     <LinearLayout
@@ -25,13 +25,13 @@
         <TextView
                 android:id="@+id/article_title"
                 android:fontFamily="@font/merriweather_sans_bolditalic"
-                android:textSize="24sp"
+                android:textSize="@dimen/list_item_title_textsize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingTop="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="4dp"
+                android:paddingLeft="@dimen/list_item_text_general_padding"
+                android:paddingTop="@dimen/list_item_text_general_padding"
+                android:paddingRight="@dimen/list_item_text_general_padding"
+                android:paddingBottom="@dimen/list_item_text_internal_bottom_padding"
                 android:textColor="@android:color/white"
                 android:ellipsize="end"
                 tools:text="Article Title"
@@ -40,12 +40,12 @@
         <TextView
                 android:id="@+id/article_subtitle"
                 android:fontFamily="@font/merriweather_sans_regular"
-                android:textSize="14sp"
+                android:textSize="@dimen/list_item_subtitle_textsize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp"
+                android:paddingLeft="@dimen/list_item_text_general_padding"
+                android:paddingRight="@dimen/list_item_text_general_padding"
+                android:paddingBottom="@dimen/list_item_text_general_padding"
                 android:textColor="@android:color/white"
                 android:maxLines="2"
                 tools:text="Author and Date"

@@ -1,10 +1,27 @@
 <resources>
+    <dimen name="appbarlayout_elevation">4dp</dimen>
+
+    <!-- list item -->
+    <dimen name="list_item_horizontal_margin">8dp</dimen>
+    <dimen name="list_item_bottom_margin">16dp</dimen>
+    <dimen name="list_item_thumbnail_height">150dp</dimen>
+    <dimen name="list_item_title_textsize">24sp</dimen>
+    <dimen name="list_item_subtitle_textsize">14sp</dimen>
+    <dimen name="list_item_text_general_padding">16dp</dimen>
+    <dimen name="list_item_text_internal_bottom_padding">4dp</dimen>
+
+    <!-- list -->
+    <dimen name="list_appbarlayout_height">168dp</dimen>
+    <dimen name="list_toolbar_content_inset_start">16dp</dimen>
+    <dimen name="list_recyclerview_negative_horizontal_padding_to_avoid_external_white_space">-8dp</dimen>
+
     <!-- detail -->
+    <dimen name="detail_toolbar_content_inset_start">0dp</dimen>
     <dimen name="detail_title_text_size">32sp</dimen>
     <dimen name="detail_body_text_size">22sp</dimen>
+    <item name="detail_meta_bar_title_line_spacing_multiplier" format="float" type="fraction">0.9</item>
     <item name="detail_body_line_spacing_multiplier" format="float" type="fraction">1.25</item>
 
-    <dimen name="fab_elevation">2dp</dimen>
-    <dimen name="fab_press_translation_z">6dp</dimen>
+    <dimen name="detail_fab_elevation">6dp</dimen>
 
 </resources>

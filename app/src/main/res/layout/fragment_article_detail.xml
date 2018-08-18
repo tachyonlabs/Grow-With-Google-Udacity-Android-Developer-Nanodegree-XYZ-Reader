@@ -11,6 +11,7 @@
             android:id="@+id/app_bar_layout_detail"
             android:layout_width="match_parent"
             android:fitsSystemWindows="true"
+            android:elevation="@dimen/appbarlayout_elevation"
             android:layout_height="@dimen/detail_app_bar_layout_height">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -38,7 +39,7 @@
                     android:layout_height="?attr/actionBarSize"
                     app:titleTextAppearance="@style/DetailToolbarTitle"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:contentInsetStart="0dp"
+                    app:contentInsetStart="@dimen/detail_toolbar_content_inset_start"
                     android:layout_gravity="bottom"
                     app:layout_collapseMode="pin">
 
@@ -57,33 +58,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            <LinearLayout
-                    android:id="@+id/meta_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="@dimen/detail_inner_horiz_margin"
-                    android:paddingRight="@dimen/detail_inner_horiz_margin"
-                    android:paddingTop="@dimen/detail_metabar_vert_padding"
-                    android:paddingBottom="@dimen/detail_metabar_vert_padding">
-
-                <TextView
-                        android:id="@+id/article_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
-                        android:textColor="#fff"
-                        android:textSize="@dimen/detail_title_text_size"
-                        android:fontFamily="@font/merriweather_sans_bolditalic"
-                        android:lineSpacingMultiplier="0.9"/>
-
-                <TextView
-                        android:id="@+id/article_byline"
-                        android:fontFamily="@font/merriweather_sans_regular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#fff"/>
-            </LinearLayout>
+            <include layout="@layout/meta_bar"/>
 
             <TextView
                     android:id="@+id/article_body"
@@ -94,7 +69,7 @@
                     android:layout_marginLeft="@dimen/detail_article_horizontal_margin"
                     android:layout_marginRight="@dimen/detail_article_horizontal_margin"
                     android:textColorLink="@color/theme_accent"
-                    android:textSize="22sp"
+                    android:textSize="@dimen/detail_body_text_size"
                     android:fontFamily="@font/merriweather"
                     android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"/>
 

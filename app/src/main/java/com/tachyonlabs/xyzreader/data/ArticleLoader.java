@@ -1,23 +1,23 @@
 package com.tachyonlabs.xyzreader.data;
 
 import android.content.Context;
-import android.support.v4.content.CursorLoader;
 import android.net.Uri;
+import android.support.v4.content.CursorLoader;
 
 /**
  * Helper for loading a list of articles or a single article.
  */
 public class ArticleLoader extends CursorLoader {
+    private ArticleLoader(Context context, Uri uri) {
+        super(context, uri, Query.PROJECTION, null, null, com.tachyonlabs.xyzreader.data.ItemsContract.Items.DEFAULT_SORT);
+    }
+
     public static ArticleLoader newAllArticlesInstance(Context context) {
         return new ArticleLoader(context, com.tachyonlabs.xyzreader.data.ItemsContract.Items.buildDirUri());
     }
 
     public static ArticleLoader newInstanceForItemId(Context context, long itemId) {
         return new ArticleLoader(context, com.tachyonlabs.xyzreader.data.ItemsContract.Items.buildItemUri(itemId));
-    }
-
-    private ArticleLoader(Context context, Uri uri) {
-        super(context, uri, Query.PROJECTION, null, null, com.tachyonlabs.xyzreader.data.ItemsContract.Items.DEFAULT_SORT);
     }
 
     public interface Query {

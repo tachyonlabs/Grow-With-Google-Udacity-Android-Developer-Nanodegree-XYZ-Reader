@@ -3,7 +3,6 @@ package com.tachyonlabs.xyzreader.ui;
 import com.tachyonlabs.xyzreader.R;
 import com.tachyonlabs.xyzreader.adapters.MyPagerAdapter;
 import com.tachyonlabs.xyzreader.data.ArticleLoader;
-import com.tachyonlabs.xyzreader.data.ItemsContract;
 import com.tachyonlabs.xyzreader.databinding.ActivityArticleDetailBinding;
 
 import android.content.Intent;
@@ -26,12 +25,8 @@ public class ArticleDetailActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = ArticleDetailActivity.class.getSimpleName();
     private Cursor mCursor;
-    private long mStartId;
     private int mCurrentPage;
     private ActivityArticleDetailBinding mBinding;
-
-    private long mSelectedItemId;
-
     private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
     private boolean mIsTablet;
@@ -40,9 +35,9 @@ public class ArticleDetailActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_article_detail);
-//        supportPostponeEnterTransition();
 
         // These are so the status bar stays transparent over the full-screen image with the tablet layout
+        // Many people have posted about this on StackOverflow
         mIsTablet = getResources().getBoolean(R.bool.is_tablet);
         if (mIsTablet) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -54,12 +49,8 @@ public class ArticleDetailActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             if (getIntent() != null && getIntent().getData() != null) {
-                mStartId = ItemsContract.Items.getItemId(getIntent().getData());
-                Log.d(TAG, "mStartId is " + mStartId);
-                mSelectedItemId = mStartId;
                 Bundle bundle = getIntent().getExtras();
                 mCurrentPage = bundle.getInt(getString(R.string.current_page_key));
-                Log.d(TAG,"Pos clicked " + mCurrentPage);
             }
         } else {
             mCurrentPage = savedInstanceState.getInt(getString(R.string.current_page_key));
@@ -79,7 +70,6 @@ public class ArticleDetailActivity extends AppCompatActivity
                     mCurrentPage = position;
                     mCursor.moveToPosition(position);
                 }
-                mSelectedItemId = mCursor.getLong(ArticleLoader.Query._ID);
             }
         });
 
@@ -108,27 +98,8 @@ public class ArticleDetailActivity extends AppCompatActivity
         Log.d(TAG, "onLoadFinished");
         mCursor = cursor;
         mPagerAdapter.swapCursor(mCursor);
-
-//        // Select the start ID
-//        if (mStartId > 0) {
-//            mCursor.moveToFirst();
-//            // TODO: optimize
-////            Toast.makeText(this, "Start ID = " + mStartId, Toast.LENGTH_LONG).show();
-//            while (!mCursor.isAfterLast()) {
-//                if (mCursor.getLong(ArticleLoader.Query._ID) == mStartId) {
-//                    final int position = mCursor.getPosition();
-//                    Log.d(TAG, "Setting " + position + " as current item in MyPagerAdapter");
-//                    mPager.setCurrentItem(position, false);
-//                    break;
-//                }
-//                mCursor.moveToNext();
-//            }
-//            mStartId = 0;
-//        }
         mCursor.moveToPosition(mCurrentPage);
         mPager.setCurrentItem(mCurrentPage, false);
-//        FloatingActionButton fab = findViewById(R.id.share_fab);
-//        fab.set
     }
 
     @Override
