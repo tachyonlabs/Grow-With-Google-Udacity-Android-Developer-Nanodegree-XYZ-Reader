@@ -1,8 +1,7 @@
 # XYZ Reader - "Make Your App Material"
 
-When complete, this will be my submission for the sixth project in the "Grow With Google" 
-scholarship Udacity/Google Android Developer Nanodegree program. #GoogleUdacityScholars 
-#GrowWithGoogle #MadeWithUdacity
+My accepted submission for the sixth project in the "Grow With Google" scholarship Udacity/Google 
+Android Developer Nanodegree program. #GoogleUdacityScholars #GrowWithGoogle #MadeWithUdacity
 
 ### Phone and Tablet Video Walkthroughs
 
@@ -41,13 +40,13 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
 * [x] App theme extends from AppCompat.
 * [x] App uses an AppBar and associated Toolbars.
 * [x] App provides a Floating Action Button for the most common action(s).
-* [ ] App properly specifies elevations for app bars, FABs, and other elements specified in the [Material Design specification](https://material.io/design/introduction/).
+* [x] App properly specifies elevations for app bars, FABs, and other elements specified in the [Material Design specification](https://material.io/design/introduction/).
 * [x] App has a consistent color theme defined in styles.xml. Color theme does not impact usability of the app.
 * [x] App provides sufficient space between text and surrounding elements.
 * [x] App uses images that are high quality, specific, and full bleed.
 * [x] App uses fonts that are either the Android defaults, are complementary, and aren't otherwise distracting.
 * [x] App utilizes stable release versions of all libraries, Gradle, and Android Studio.
-* [ ] App conforms to common standards found in the Android Nanodegree General Project Guidelines.
+* [x] App conforms to common standards found in the Android Nanodegree General Project Guidelines.
 
 ## Android Nanodegree General Project Guidelines
 
@@ -74,8 +73,8 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
     * [x] When an activity is displayed, the same activity appears on rotation.
     * [n/a] User text input is preserved on rotation.
     * [n/a with StaggeredGridLayoutManager, and number of columns dependent on orientation] Maintains list items positions on device rotation.
-* [ ] When the app is resumed after the device wakes from sleep (locked) state, the app returns the user to the exact state in which it was last used.
-* [ ] When the app is relaunched from Home or All Apps, the app restores the app state as closely as possible to the previous state.
+* [x] When the app is resumed after the device wakes from sleep (locked) state, the app returns the user to the exact state in which it was last used.
+* [x] When the app is relaunched from Home or All Apps, the app restores the app state as closely as possible to the previous state.
 
 ### Performance and Stability
 
@@ -87,7 +86,7 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
 #### Content Policies
 * [x] All content is safe for work content.
 * [x] App adheres to the [Google Play Store App policies](https://play.google.com/about/developer-content-policy.html).
-* [ ] App’s code follows standard Java/Android Style Guidelines.
+* [x] App’s code follows standard Java/Android Style Guidelines.
 
 ## Open-source libraries used
 
@@ -100,5 +99,5 @@ thoroughly before you submit. All criteria must "meet specifications" in order t
 
 I made the accent color the same color as the icon and the primary color, because the only place you see the accent 
 color is in the Article Detail activity, which takes its palette from the photo rather than the app theme, so I 
-thought it was good to have the FAB and progress bar reinforce the app primary color rather than be some 
+thought it was good to have the Floating Action Button reinforce the app primary color rather than be some 
 other color that had no relation to anything other than contrasting with colors that aren't even onscreen.
