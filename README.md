@@ -3,9 +3,15 @@
 My accepted submission for the sixth project in the "Grow With Google" scholarship Udacity/Google 
 Android Developer Nanodegree program. #GoogleUdacityScholars #GrowWithGoogle #MadeWithUdacity
 
-### Phone and Tablet Video Walkthroughs
+### Before and After Video Walkthroughs
 
-![XYZ Reader phone video walkthrough](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/xyz_reader.gif "XYZ Reader phone video walkthrough") &nbsp; &nbsp; ![XYZ Reader tablet video walkthrough](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/xyz_reader_tablet.gif "XYZ Reader tablet video walkthrough")
+Here you can compare before and after video walkthroughs of the XYZReader original starter code version, vs my 
+improved version in both phone and tablet layouts. I chose the shade of orange I used for the app theme's primary 
+color and Floating Action Button to match the app's orange icon that was supplied with the starter code.
+
+![XYZ Reader original starter code version phone video walkthrough](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/xyz_reader_original.gif "XYZ Reader original starter code version phone video walkthrough") &nbsp; &nbsp; ![XYZ Reader phone video walkthrough](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/xyz_reader.gif "XYZ Reader phone video walkthrough")
+
+![XYZ Reader tablet video walkthrough](https://github.com/tachyonlabs/Grow-With-Google-Udacity-Android-Developer-Nanodegree-XYZ-Reader/blob/master/xyz_reader_tablet.gif "XYZ Reader tablet video walkthrough")
 
 ## Why this Project?
    
